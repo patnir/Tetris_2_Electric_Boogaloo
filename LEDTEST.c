@@ -74,6 +74,8 @@ char color = 0;
 char row = 0;
 char i = 0;
 char j = 0;
+int prev = 0;
+int curr = 0;
   
 char data[8][32];
 
@@ -139,22 +141,23 @@ void  initializations(void) {
   
   for(i = 0; i < 8; i++){
     for(j = 0; j < 32; j++){
-      data[i][j] = make;
+      data[i][j] = (j);
     }
-    make++;
-    make %= 8;
+    //make++;
+    //make %= 8;
   }
 /* Initialize peripherals */
   DDRT = 0xFF;
   DDRM = 0x01;
   TSCR2 = 0x0C;
-  TIOS = 0x80;
-  TIE = 0x80;
+  TIOS = 0xC0;
+  TIE = 0xC0;
   TSCR1 = 0x80;
   TCTL1 = 0x00;
   TCTL2 = 0x00;
   
-  TC7 = 100;
+  TC7 = 20000;
+  TC6 = 60000;
             
 /* Initialize interrupts */
   OE = 1;
@@ -205,32 +208,38 @@ interrupt 7 void RTI_ISR(void)
 ***********************************************************************
 */
 
-interrupt 15 void TIM_ISR(void)
+interrupt 15 void TIM_ISR7(void)
 {
-  	// clear TIM CH 7 interrupt flag 
- 	TFLG1 = TFLG1 | 0x80;
- 	color = data[row][rowCnt];
- 	
- 	rowCnt++;
- 	OE = 0;
-  R1 = (color & 0b00000001);
-  B1 = (color & 0b00000010) >> 1;
-  G1 = (color & 0b00000100) >> 2;
-  
-  A = (row & 0b00000001);
-  B = (row & 0b00000010) >> 1;
-  C = (row & 0b00000100) >> 2;
-  
- 	if(rowCnt == 32){
- 	  rowCnt = 0;
- 	  LAT = 1;
- 	  LAT = 0;
- 	  row = (row + 1) % 8;
- 	}
- 	LEDCLK = 1;
-  LEDCLK = 0;
+  	// clear TIM CH 7 interrupt flag
+  for(i = 0; i < 8; i++){
+    for(j = 0; j < 32; j++){      
+     	TFLG1 = TFLG1 | 0x80;
+     	color = data[i][j];
+     	OE = 0;
+      R1 = (color & 0b00000001);
+      B1 = (color & 0b00000010) >> 1;
+      G1 = (color & 0b00000100) >> 2;
+      LEDCLK = 1;
+      LEDCLK = 0;
+      
+    }
+    
+   	LAT = 1;
+   	LAT = 0;
+    A = (i & 0b00000001);
+    B = (i & 0b00000010) >> 1;
+    C = (i & 0b00000100) >> 2;   	
+  }
+  OE = 1;
 }
 
+
+/* HOW DOES THIS WORK
+interrupt 14 void TIM_ISR6(void){
+  data[curr/32][curr%32] = 1;
+  curr = (curr + 1) % 256;   
+}
+*/
 /*
 ***********************************************************************                       
   SCI interrupt service routine		 		  		
