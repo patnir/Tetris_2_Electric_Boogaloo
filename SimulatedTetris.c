@@ -46,8 +46,8 @@ int main(void){
 	}
 
 	for (i = 0; i < 4; i++){
-		curr_piece[i][0] = pieces[2][i][0];
-		curr_piece[i][1] = pieces[2][i][1];
+		curr_piece[i][0] = pieces[0][i][0];
+		curr_piece[i][1] = pieces[0][i][1];
 	}
 	for(i = 0; i < 4;i++){
 		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
@@ -226,11 +226,13 @@ void rotate(){
 	}
 
 	for(i = 0; i < 4;i++){
-		if(newPos[i][0] + 1 > (WIDTH - 1) || data[(int)newPos[i][1]][(int)newPos[i][0]+1] != 0){
+		if(newPos[i][0] + 1 > (WIDTH - 1) || newPos[i][0] - 1 < 0 || data[(int)newPos[i][1]][(int)newPos[i][0]+1] != 0){
 			valid = 0;
+			break;
 		}
 		if(newPos[i][1] + 1 > (HEIGHT - 1) || data[(int)newPos[i][1]+1][(int)newPos[i][0]] != 0){
 			valid = 0;
+			break;
 		}
 		else{
 			valid = 1;
