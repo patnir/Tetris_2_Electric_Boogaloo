@@ -140,7 +140,7 @@ int main(void){
 					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
 				}
 
-		//		create_new_piece = 1;
+		//      create_new_piece = 1;
 			
 			}
 			stop = 0;
