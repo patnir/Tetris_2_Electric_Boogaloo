@@ -25,6 +25,8 @@ char create_new_piece = 0;
 char left = 0;
 char right = 0;
 char rotateflag = 0;
+char downflag = 0;
+
 int i = 0;
 //char pause = 0;
 
@@ -34,7 +36,7 @@ void printBoard(void);
 void rotate(void);
 
 int main(void){
-	char key = '9';
+	char key[10] = "9";
 	int stop = 0;
 	//int endloop = 0;
 	
@@ -71,19 +73,22 @@ int main(void){
 
 		
 		}
-		scanf("%c",&key);
-		if(key == 'a'){
+		scanf("%s",key);
+		if(key[0] == 'a'){
 			left = 1;
 		}
-		if(key == 'd'){
+		if(key[0] == 'd'){
 			right = 1;
 		}
-		if(key == 'p'){
+		if(key[0] == 'p'){
 			break;
 		}
-		if(key == 'r'){
+		if(key[0] == 'r'){
 			rotateflag = 1;
 		}
+        if(key[0] == 's'){
+            downflag = 1;
+        }
 
 		if(right){
 			right = 0;
@@ -149,31 +154,33 @@ int main(void){
 		
 		
 		//Remove Current Piece from Data
-		for(i = 0;i < 4;i++){
-			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-		}
-		//Check if space below is occupied
-		for(i = 0; i < 4;i++){
-			if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
-				stop = 1;
-				break;
-			}	
-		}
-		if(!stop){
-			for(i = 0;i < 4;i++){
-				curr_piece[i][1] = curr_piece[i][1] + 1;
-				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-			}
-		}
-		else{
-			for(i = 0; i < 4;i++){
-				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-			}
+        if(downflag){
+            downflag = 0;
+            for(i = 0;i < 4;i++){
+                data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
+            }
+            //Check if space below is occupied
+            for(i = 0; i < 4;i++){
+                if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
+                    stop = 1;
+                    break;
+                }	
+            }
+            if(!stop){
+                for(i = 0;i < 4;i++){
+                    curr_piece[i][1] = curr_piece[i][1] + 1;
+                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+                }
+            }
+            else{
+                for(i = 0; i < 4;i++){
+                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+                }
 
-			create_new_piece = 1;
-			stop = 0;
-		}
-
+                create_new_piece = 1;
+                stop = 0;
+            }
+        }
 		sleep(1);
 		printBoard();
 		
