@@ -61,7 +61,7 @@ char right = 0;
 char rotateflag = 0;
 char downflag = 0;
 char tetris = 0;
-
+char gameover = 0;
 int piece;
 int rot = 0;
 
@@ -82,6 +82,15 @@ void initBoard(void);
 void createPiece(void);
 void addPiece(char part[][2]);
 void removePiece(char part[][2]);
+void gameoverBoard(void);
+
+void gameoverBoard(void){
+	for(i = 0; i < HEIGHT;i++){
+		for(int j = 0; j < WIDTH;j++){
+			data[i][j] = 5;
+		}
+	}
+}
 
 void addPiece(char part[][2]){
 	for(i = 0;i < 4;i++){
@@ -105,7 +114,18 @@ void createPiece(void){
 		curr_piece[i][0] = pieces[piece][0][i][0];
 		curr_piece[i][1] = pieces[piece][0][i][1];
 	}
-	addPiece(curr_piece);
+	for(i = 0; i < 4; i++){
+		if(data[(int)curr_piece[i][1]][(int)curr_piece[i][0]]){
+			gameover = 1;
+		}
+	}
+	if(gameover){
+		gameoverBoard();
+	}
+	if(!gameover){
+		addPiece(curr_piece);
+	}
+	
 }
 
 void initBoard(void){
@@ -220,7 +240,7 @@ int main(void){
 	//INFINITE LOOP
 	for(;;){
 		//printBoard();
-		if(create_new_piece == 1){
+		if(create_new_piece == 1 ){
 			create_new_piece = 0;
 			createPiece();
 		}
@@ -241,20 +261,20 @@ int main(void){
             downflag = 1;
         }
 
-		if(right){
+		if(right && !gameover){
 			right = 0;
 			moveRight(curr_piece);
 		}
-		if(left){
+		if(left && !gameover){
 			left = 0;
 			moveLeft(curr_piece);
 		}
-		if(rotateflag){
+		if(rotateflag && !gameover){
 			rotateflag = 0;
 			rotate();
 		}
 		
-        if(downflag){
+        if(downflag && !gameover){
             downflag = 0;
 			moveDown();
         }
