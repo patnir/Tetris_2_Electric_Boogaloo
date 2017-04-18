@@ -183,27 +183,24 @@ void moveDown(){
     	data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
     }
             //Check if space below is occupied
-        for(i = 0; i < 4;i++){
-            if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
-            	stop = 1;
-                break;
-            }	
-        }
-            if(!stop){
-                for(i = 0;i < 4;i++){
-                    curr_piece[i][1] = curr_piece[i][1] + 1;
-                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-                }
-            }
-            else{
-                for(i = 0; i < 4;i++){
-                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-                }
-
-                create_new_piece = 1;
-                stop = 0;
-            }
-
+	for(i = 0; i < 4;i++){
+    	if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
+			stop = 1;
+			break;
+        }	
+    }
+    if(!stop){
+		for(i = 0;i < 4;i++){
+			curr_piece[i][1] = curr_piece[i][1] + 1;
+			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+		}
+	}else{
+		for(i = 0; i < 4;i++){
+			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+		}
+		create_new_piece = 1;
+		stop = 0;
+	}
 }
 int main(void){
 	char key[10] = "9";
