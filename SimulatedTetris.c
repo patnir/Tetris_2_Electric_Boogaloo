@@ -220,6 +220,7 @@ int main(void){
 			create_new_piece = 0;
 			createPiece();
 		}
+		
 		scanf("%s",key);
 		if(key[0] == 'a'){
 			left = 1;
@@ -283,7 +284,7 @@ void rotate(void){
     }
 
 
-	for(i = 0;i < 4;i++){
+	for(i = 0;i < 4;i++){ //Remove piece from data
 		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
 	}
 
@@ -301,7 +302,6 @@ void rotate(void){
 		}
 	}
 	if(valid == 1){
-
 		for(i = 0; i < 4;i++){
 			curr_piece[i][0] = newPos[i][0];
 			curr_piece[i][1] = newPos[i][1];
