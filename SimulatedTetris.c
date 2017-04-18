@@ -5,14 +5,48 @@
 #define HEIGHT 16
 
 char data[HEIGHT][WIDTH];
-const char pieces[7][4][2] = {
-	{ { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } }, // Square
-	{ { 1, 0 }, { 0, 0 }, { 2, 0 }, { 3, 0 } }, // Line
-	{ { 1, 0 }, { 0, 0 }, { 2, 0 }, { 1, 1 } }, // T
-	{ { 1, 0 }, { 0, 1 }, { 0, 0 }, { 2, 0 } }, // J
-	{ { 1, 0 }, { 0, 0 }, { 2, 0 }, { 2, 1 } }, // L
-	{ { 1, 1 }, { 1, 0 }, { 0, 1 }, { 2, 0 } }, // Z
-	{ { 1, 1 }, { 1, 0 }, { 0, 0 }, { 2, 1 } }  // S
+const char pieces[7][4][4][2] = {
+    {   { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } },
+        { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } },
+        { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } },
+        { { 0, 0 }, { 0, 1 }, { 1, 0 }, { 1, 1 } }
+    }, // Square
+    
+    {   { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 3, 0 } },
+        { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 1, 2 } },
+        { { 1, 1 }, { 0, 1 }, { 2, 1 }, { 3, 1 } },
+        { { 2, 0 }, { 2, -1 }, { 2, 1 }, { 2, 2 } }
+    }, // Line
+    
+    {   { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 1, 1 } },
+        { { 1, 0 }, { 1, 1 }, { 1, -1 }, { 2, 0 } },
+        { { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, -1 } },
+        { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 0 } }
+    }, // T
+    
+    {   { { 1, 0 }, { 0, 1 }, { 0, 0 }, { 2, 0 } },
+        { { 1, 0 }, { 2, 1 }, { 1, 1 }, { 1, -1 } },
+        { { 1, 0 }, { 2, -1 }, { 2, 0 }, { 0, 0 } },
+        { { 1, 0 }, { 0, -1 }, { 1, -1 }, { 1, 1 } }
+    }, // J
+    
+    {   { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 2, 1 } },
+        { { 1, 0 }, { 1, 1 }, { 1, -1 }, { 2, -1 } },
+        { { 1, 0 }, { 2, 0 }, { 0, 0 }, { 0, -1 } },
+        { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 } }
+    }, // L
+
+    {   { { 1, 1 }, { 1, 0 }, { 0, 1 }, { 2, 0 } },
+        { { 1, 1 }, { 0, 1 }, { 1, 2 }, { 0, 0 } },
+       	{ { 1, 1 }, { 1, 2 }, { 2, 1 }, { 0, 2 } },
+       	{ { 1, 1 }, { 2, 1 }, { 1, 0 }, { 2, 2 } },
+    },// Z
+    
+    {   { { 1, 1 }, { 1, 0 }, { 0, 0 }, { 2, 1 } },
+        { { 1, 1 }, { 0, 1 }, { 0, 2 }, { 1, 0 } },
+        { { 1, 1 }, { 1, 2 }, { 2, 2 }, { 0, 1 } },
+        { { 1, 1 }, { 2, 1 }, { 2, 0 }, { 1, 2 } },
+    },// S
 };
 
 char curr_piece[4][2] = {
@@ -26,6 +60,8 @@ char left = 0;
 char right = 0;
 char rotateflag = 0;
 char downflag = 0;
+int piece;
+int rot = 0;
 
 int i = 0;
 //char pause = 0;
@@ -33,11 +69,12 @@ int i = 0;
 
 //FUNCTION DECLARATIONS
 void printBoard(void);
-void rotate(void);
+void rotate();
 
 int main(void){
 	char key[10] = "9";
 	int stop = 0;
+    piece = rand() % 8;
 	//int endloop = 0;
 	
 	//INITIALIZES BOARD
@@ -48,8 +85,8 @@ int main(void){
 	}
 
 	for (i = 0; i < 4; i++){
-		curr_piece[i][0] = pieces[0][i][0];
-		curr_piece[i][1] = pieces[0][i][1];
+		curr_piece[i][0] = pieces[piece][0][i][0];
+		curr_piece[i][1] = pieces[piece][0][i][1];
 	}
 	for(i = 0; i < 4;i++){
 		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
@@ -58,14 +95,15 @@ int main(void){
 		
 
 	//INFINITE LOOP
-	for(;;){ 
-		int random = rand() % 8;
+	for(;;){
 		//printBoard();
 		if(create_new_piece == 1){
+            piece = rand() % 8;
 			create_new_piece = 0;
+            rot = 0;
 			for (i = 0; i < 4; i++){
-				curr_piece[i][0] = pieces[random][i][0];
-				curr_piece[i][1] = pieces[random][i][1];
+				curr_piece[i][0] = pieces[piece][0][i][0];
+				curr_piece[i][1] = pieces[piece][0][i][1];
 			}
 			for(i = 0;i < 4;i++){
 				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
@@ -211,33 +249,27 @@ void printBoard(void){
 	printf("\n---------------------\n");
 }
 
-void rotate(){
+void rotate(void){
 	char newPos[4][2];
 	int valid = 0;
-	newPos[0][0] = curr_piece[0][0];
-	newPos[0][1] = curr_piece[0][1];
-	int temp = 0;
-// { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 1, 1 } }
-	temp = curr_piece[1][1] - curr_piece[0][1];
-	newPos[1][1] = (curr_piece[0][1] + curr_piece[1][0]) - curr_piece[0][0];
-	newPos[1][0] = curr_piece[0][0] - temp;
-	temp = curr_piece[2][1] - curr_piece[0][1];
-	newPos[2][1] = (curr_piece[0][1] + curr_piece[2][0]) - curr_piece[0][0];
-	newPos[2][0] = (curr_piece[0][0] - temp);
-	temp = curr_piece[3][1] - curr_piece[0][1];
-	newPos[3][1] = (curr_piece[0][1] + curr_piece[3][0]) - curr_piece[0][0];
-	newPos[3][0] = curr_piece[0][0] - temp;
+    printf("%d\n",rot);
+    
+    for(i = 0; i < 4; i++){
+        newPos[i][0] = pieces[piece][(rot + 1)%4][i][0] - pieces[piece][rot][i][0] + curr_piece[i][0];
+        newPos[i][1] = pieces[piece][(rot + 1)%4][i][1] - pieces[piece][rot][i][1] + curr_piece[i][1];
+    }
+
 
 	for(i = 0;i < 4;i++){
 		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
 	}
 
 	for(i = 0; i < 4;i++){
-		if(newPos[i][0] + 1 > (WIDTH - 1) || newPos[i][0] - 1 < 0 || data[(int)newPos[i][1]][(int)newPos[i][0]+1] != 0){
+		if(newPos[i][0] + 1 > (WIDTH - 1) || newPos[i][0] < 0 || data[(int)newPos[i][1]][(int)newPos[i][0]+1] != 0){
 			valid = 0;
 			break;
 		}
-		if(newPos[i][1] + 1 > (HEIGHT - 1) || data[(int)newPos[i][1]+1][(int)newPos[i][0]] != 0){
+		if(newPos[i][1] + 1 > (HEIGHT - 1) || newPos[i][1] < 0 || data[(int)newPos[i][1]+1][(int)newPos[i][0]] != 0){
 			valid = 0;
 			break;
 		}
@@ -254,6 +286,7 @@ void rotate(){
 		for (i = 0; i < 4; i++){
 			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
 		}
+        rot = (rot + 1) % 4;
 	}else{
 		for(i = 0; i < 4;i++){
 			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
