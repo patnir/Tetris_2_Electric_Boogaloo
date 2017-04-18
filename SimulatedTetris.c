@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<unistd.h>
 #define WIDTH 8
-#define HEIGHT 16
+#define HEIGHT 10
 
 char data[HEIGHT][WIDTH];
 const char pieces[7][4][2] = {
@@ -26,6 +26,7 @@ char left = 0;
 char right = 0;
 char rotateflag = 0;
 char downflag = 0;
+char tetris = 0;
 
 int i = 0;
 //char pause = 0;
@@ -34,6 +35,7 @@ int i = 0;
 //FUNCTION DECLARATIONS
 void printBoard(void);
 void rotate(void);
+void clearRow(int row);
 
 int main(void){
 	char key[10] = "9";
@@ -62,10 +64,27 @@ int main(void){
 		int random = rand() % 8;
 		//printBoard();
 		if(create_new_piece == 1){
+
+		//TETRIS FIND
+			for(i = 0;i < HEIGHT;i++){
+				tetris = 1;
+				for(int j = 0; j < WIDTH;j++){
+					if(data[i][j] == 0){
+						tetris = 0;
+						break;
+					}
+				}
+				if(tetris != 0){
+					clearRow(i);
+					i--;
+				}
+			}
+			/////////////////
+
 			create_new_piece = 0;
 			for (i = 0; i < 4; i++){
-				curr_piece[i][0] = pieces[random][i][0];
-				curr_piece[i][1] = pieces[random][i][1];
+				curr_piece[i][0] = pieces[0][i][0];
+				curr_piece[i][1] = pieces[0][i][1];
 			}
 			for(i = 0;i < 4;i++){
 				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
@@ -180,6 +199,7 @@ int main(void){
                 create_new_piece = 1;
                 stop = 0;
             }
+
         }
 		sleep(1);
 		printBoard();
@@ -262,3 +282,14 @@ void rotate(){
 	return;
 }
 
+void clearRow(int row){
+	//for(int j = 0; j < WIDTH;j++){
+	//	data[row][j] = 0;
+	//}
+	for(int j = row;j >0; j--){
+		for(int k = 0; k < WIDTH;k++){
+			data[j][k] = data[j - 1][k];
+		}
+	}
+
+}
