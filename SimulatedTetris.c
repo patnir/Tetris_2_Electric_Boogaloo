@@ -55,7 +55,7 @@ char curr_piece[4][2] = {
 	{ 1, 0 },
 	{ 1, 1 }
 };
-char create_new_piece = 0;
+char create_new_piece = 1;
 char left = 0;
 char right = 0;
 char rotateflag = 0;
@@ -78,7 +78,7 @@ void clearRow(int row);
 int main(void){
 	char key[10] = "9";
 	int stop = 0;
-    piece = rand() % 7;
+
 	//int endloop = 0;
 	
 	//INITIALIZES BOARD
@@ -88,13 +88,14 @@ int main(void){
 		}
 	}
 
-	for (i = 0; i < 4; i++){
+/*	for (i = 0; i < 4; i++){
 		curr_piece[i][0] = pieces[piece][0][i][0];
 		curr_piece[i][1] = pieces[piece][0][i][1];
 	}
 	for(i = 0; i < 4;i++){
 		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
 	}
+ */
 	printBoard();
 		
 
