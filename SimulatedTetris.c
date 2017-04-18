@@ -78,7 +78,7 @@ void clearRow(int row);
 int main(void){
 	char key[10] = "9";
 	int stop = 0;
-    piece = rand() % 8;
+    piece = rand() % 7;
 	//int endloop = 0;
 	
 	//INITIALIZES BOARD
