@@ -236,9 +236,9 @@ int main(void){
 		if(key[0] == 'r'){
 			rotateflag = 1;
 		}
-        if(key[0] == 's'){
-            downflag = 1;
-        }
+       	if(key[0] == 's'){
+        	downflag = 1;
+       	}
 
 		if(right){
 			right = 0;
@@ -254,7 +254,7 @@ int main(void){
 		}
 		
         if(downflag){
-            downflag = 0;
+        	downflag = 0;
 			moveDown();
         }
 		sleep(1);
@@ -281,8 +281,8 @@ void rotate(void){
     printf("%d\n",rot);
     
     for(i = 0; i < 4; i++){
-        newPos[i][0] = pieces[piece][(rot + 1)%4][i][0] - pieces[piece][rot][i][0] + curr_piece[i][0];
-        newPos[i][1] = pieces[piece][(rot + 1)%4][i][1] - pieces[piece][rot][i][1] + curr_piece[i][1];
+    	newPos[i][0] = pieces[piece][(rot + 1)%4][i][0] - pieces[piece][rot][i][0] + curr_piece[i][0];
+    	newPos[i][1] = pieces[piece][(rot + 1)%4][i][1] - pieces[piece][rot][i][1] + curr_piece[i][1];
     }
 
 
@@ -330,5 +330,4 @@ void clearRow(int row){
 			data[j][k] = data[j - 1][k];
 		}
 	}
-
 }
