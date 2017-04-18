@@ -74,20 +74,145 @@ int i = 0;
 void printBoard(void);
 void rotate(void);
 void clearRow(int row);
+void moveDown(void);
+void moveLeft(char part[][2]);
+void moveRight(char part[][2]);
+void checkCompleteRow(void);
+void initBoard(void);
+void createPiece(void);
 
-int main(void){
-	char key[10] = "9";
-	int stop = 0;
+void createPiece(void){	
+	piece = rand() % 7;
+			
+	checkCompleteRow();
 
-	//int endloop = 0;
-	
-	//INITIALIZES BOARD
+    rot = 0;
+	for (i = 0; i < 4; i++){
+		curr_piece[i][0] = pieces[piece][0][i][0];
+		curr_piece[i][1] = pieces[piece][0][i][1];
+	}
+	for(i = 0;i < 4;i++){
+		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+	}
+
+}
+
+void initBoard(void){
 	for (i = 0; i < HEIGHT; i++){
 		for (int j = 0; j < WIDTH; j++){
 			data[i][j] = 0;
 		}
 	}
-    
+
+}
+
+void moveRight(char part[][2]){
+	char stop = 0;
+	for(i = 0;i<4;i++){
+		data[(int)part[i][1]][(int)part[i][0]] = 0;
+	}
+	for(i = 0;i < 4;i++){
+		if(part[i][0] + 1 > (WIDTH - 1) || data[(int)part[i][1]][(int)part[i][0] + 1] != 0){
+			stop = 1;
+			break;
+		}
+	}
+	if(!stop){
+		for(i = 0;i < 4;i++){
+			part[i][0] = part[i][0] + 1;
+			data[(int)part[i][1]][(int)part[i][0]] = 1;
+		}
+	}
+	else{
+		for(i = 0; i < 4;i++){
+			data[(int)part[i][1]][(int)part[i][0]] = 1;
+		}
+			
+	}
+	stop = 0;
+
+}
+
+void moveLeft(char part[][2]){
+	char stop = 0;	
+	for(i = 0;i<4;i++){
+		data[(int)part[i][1]][(int)part[i][0]] = 0;
+	}
+	for(i = 0;i < 4;i++){
+		if(part[i][0] - 1 < 0 || data[(int)part[i][1]][(int)part[i][0] - 1] != 0){
+			stop = 1;
+			break;
+		}
+	}
+	if(!stop){
+		for(i = 0;i < 4;i++){
+			part[i][0] = part[i][0] - 1;
+			data[(int)part[i][1]][(int)part[i][0]] = 1;
+		}
+	}
+	else{
+		for(i = 0; i < 4;i++){
+			data[(int)part[i][1]][(int)part[i][0]] = 1;
+		}
+			
+	}
+	stop = 0;
+
+}
+
+void checkCompleteRow(void){
+	for(i = 0;i < HEIGHT;i++){
+		tetris = 1;
+		for(int j = 0; j < WIDTH;j++){
+			if(data[i][j] == 0){
+				tetris = 0;
+				break;
+			}
+
+		}
+		if(tetris != 0){
+			clearRow(i);
+			i--;
+		}
+	}
+}
+
+void moveDown(){
+	char stop = 0;
+	for(i = 0;i < 4;i++){
+    	data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
+    }
+            //Check if space below is occupied
+        for(i = 0; i < 4;i++){
+            if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
+            	stop = 1;
+                break;
+            }	
+        }
+            if(!stop){
+                for(i = 0;i < 4;i++){
+                    curr_piece[i][1] = curr_piece[i][1] + 1;
+                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+                }
+            }
+            else{
+                for(i = 0; i < 4;i++){
+                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
+                }
+
+                create_new_piece = 1;
+                stop = 0;
+            }
+
+}
+int main(void){
+	char key[10] = "9";
+	//int stop = 0;
+
+	//int endloop = 0;
+	
+	//INITIALIZES BOARD
+   	initBoard(); 
 	printBoard();
 		
 
@@ -95,31 +220,8 @@ int main(void){
 	for(;;){
 		//printBoard();
 		if(create_new_piece == 1){
-            piece = rand() % 7;
-		//TETRIS FIND
-			for(i = 0;i < HEIGHT;i++){
-				tetris = 1;
-				for(int j = 0; j < WIDTH;j++){
-					if(data[i][j] == 0){
-						tetris = 0;
-						break;
-					}
-				}
-				if(tetris != 0){
-					clearRow(i);
-					i--;
-				}
-			}
-			/////////////////
 			create_new_piece = 0;
-            rot = 0;
-			for (i = 0; i < 4; i++){
-				curr_piece[i][0] = pieces[piece][0][i][0];
-				curr_piece[i][1] = pieces[piece][0][i][1];
-			}
-			for(i = 0;i < 4;i++){
-				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-			}
+			createPiece();
 		}
 		scanf("%s",key);
 		if(key[0] == 'a'){
@@ -140,54 +242,11 @@ int main(void){
 
 		if(right){
 			right = 0;
-			for(i = 0;i<4;i++){
-				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-			}
-			for(i = 0;i < 4;i++){
-				if(curr_piece[i][0] + 1 > (WIDTH - 1) || data[(int)curr_piece[i][1]][(int)curr_piece[i][0] + 1] != 0){
-					stop = 1;
-					break;
-				}
-			}
-			if(!stop){
-				for(i = 0;i < 4;i++){
-					curr_piece[i][0] = curr_piece[i][0] + 1;
-					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-				}
-			}
-			else{
-				for(i = 0; i < 4;i++){
-					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-				}
-			
-			}
-			stop = 0;
-
+			moveRight(curr_piece);
 		}
 		if(left){
 			left = 0;
-			for(i = 0;i<4;i++){
-				data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-			}
-			for(i = 0;i < 4;i++){
-				if(curr_piece[i][0] - 1 < 0 || data[(int)curr_piece[i][1]][(int)curr_piece[i][0] - 1] != 0){
-					stop = 1;
-					break;
-				}
-			}
-			if(!stop){
-				for(i = 0;i < 4;i++){
-					curr_piece[i][0] = curr_piece[i][0] - 1;
-					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-				}
-			}
-			else{
-				for(i = 0; i < 4;i++){
-					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-				}
-			
-			}
-			stop = 0;
+			moveLeft(curr_piece);
 		}
 		if(rotateflag){
 			rotateflag = 0;
@@ -196,47 +255,11 @@ int main(void){
 		
         if(downflag){
             downflag = 0;
-            for(i = 0;i < 4;i++){
-                data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-            }
-            //Check if space below is occupied
-            for(i = 0; i < 4;i++){
-                if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
-                    stop = 1;
-                    break;
-                }	
-            }
-            if(!stop){
-                for(i = 0;i < 4;i++){
-                    curr_piece[i][1] = curr_piece[i][1] + 1;
-                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-                }
-            }
-            else{
-                for(i = 0; i < 4;i++){
-                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-                }
-
-                create_new_piece = 1;
-                stop = 0;
-            }
-
+			moveDown();
         }
 		sleep(1);
 		printBoard();
 		
-		//for (int i = 0; i < 4; i++){
-		//	data[curr_piece[i][0] + 3][curr_piece[i][1] + 3] = 1;
-		//}
-		/*
-		printBoard();
-		rotate();
-		printBoard();
-		rotate();
-		printBoard();
-		rotate();
-		printBoard();
-		*/
 	}
 
 	return 1;
