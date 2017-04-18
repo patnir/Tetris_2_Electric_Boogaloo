@@ -87,15 +87,7 @@ int main(void){
 			data[i][j] = 0;
 		}
 	}
-
-/*	for (i = 0; i < 4; i++){
-		curr_piece[i][0] = pieces[piece][0][i][0];
-		curr_piece[i][1] = pieces[piece][0][i][1];
-	}
-	for(i = 0; i < 4;i++){
-		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-	}
- */
+    
 	printBoard();
 		
 
@@ -167,8 +159,6 @@ int main(void){
 				for(i = 0; i < 4;i++){
 					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
 				}
-
-				create_new_piece = 1;
 			
 			}
 			stop = 0;
@@ -195,21 +185,15 @@ int main(void){
 				for(i = 0; i < 4;i++){
 					data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
 				}
-
-		//      create_new_piece = 1;
 			
 			}
 			stop = 0;
-
-			
 		}
 		if(rotateflag){
 			rotateflag = 0;
 			rotate();
 		}
 		
-		
-		//Remove Current Piece from Data
         if(downflag){
             downflag = 0;
             for(i = 0;i < 4;i++){
