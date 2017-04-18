@@ -80,6 +80,20 @@ void moveRight(char part[][2]);
 void checkCompleteRow(void);
 void initBoard(void);
 void createPiece(void);
+void addPiece(char part[][2]);
+void removePiece(char part[][2]);
+
+void addPiece(char part[][2]){
+	for(i = 0;i < 4;i++){
+		data[(int)part[i][1]][(int)part[i][0]] = 1;
+	}
+}
+
+void removePiece(char part[][2]){
+	for(i = 0;i < 4;i++){
+		data[(int)part[i][1]][(int)part[i][0]] = 0;
+	}
+}
 
 void createPiece(void){	
 	piece = rand() % 7;
@@ -91,10 +105,7 @@ void createPiece(void){
 		curr_piece[i][0] = pieces[piece][0][i][0];
 		curr_piece[i][1] = pieces[piece][0][i][1];
 	}
-	for(i = 0;i < 4;i++){
-		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-	}
-
+	addPiece(curr_piece);
 }
 
 void initBoard(void){
@@ -108,9 +119,8 @@ void initBoard(void){
 
 void moveRight(char part[][2]){
 	char stop = 0;
-	for(i = 0;i<4;i++){
-		data[(int)part[i][1]][(int)part[i][0]] = 0;
-	}
+	removePiece(part);
+
 	for(i = 0;i < 4;i++){
 		if(part[i][0] + 1 > (WIDTH - 1) || data[(int)part[i][1]][(int)part[i][0] + 1] != 0){
 			stop = 1;
@@ -124,10 +134,8 @@ void moveRight(char part[][2]){
 		}
 	}
 	else{
-		for(i = 0; i < 4;i++){
-			data[(int)part[i][1]][(int)part[i][0]] = 1;
-		}
-			
+		addPiece(part);
+	
 	}
 	stop = 0;
 
@@ -135,9 +143,8 @@ void moveRight(char part[][2]){
 
 void moveLeft(char part[][2]){
 	char stop = 0;	
-	for(i = 0;i<4;i++){
-		data[(int)part[i][1]][(int)part[i][0]] = 0;
-	}
+	removePiece(part);
+
 	for(i = 0;i < 4;i++){
 		if(part[i][0] - 1 < 0 || data[(int)part[i][1]][(int)part[i][0] - 1] != 0){
 			stop = 1;
@@ -151,10 +158,8 @@ void moveLeft(char part[][2]){
 		}
 	}
 	else{
-		for(i = 0; i < 4;i++){
-			data[(int)part[i][1]][(int)part[i][0]] = 1;
-		}
-			
+		addPiece(part);
+	
 	}
 	stop = 0;
 
@@ -179,9 +184,8 @@ void checkCompleteRow(void){
 
 void moveDown(){
 	char stop = 0;
-	for(i = 0;i < 4;i++){
-    	data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-    }
+	removePiece(curr_piece);
+
             //Check if space below is occupied
         for(i = 0; i < 4;i++){
             if(curr_piece[i][1] + 1 > (HEIGHT - 1) || data[(int)curr_piece[i][1] + 1][(int)curr_piece[i][0]] != 0){
@@ -196,14 +200,11 @@ void moveDown(){
                 }
             }
             else{
-                for(i = 0; i < 4;i++){
-                    data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-                }
+				addPiece(curr_piece);
 
                 create_new_piece = 1;
                 stop = 0;
             }
-
 }
 int main(void){
 	char key[10] = "9";
@@ -284,11 +285,7 @@ void rotate(void){
         newPos[i][0] = pieces[piece][(rot + 1)%4][i][0] - pieces[piece][rot][i][0] + curr_piece[i][0];
         newPos[i][1] = pieces[piece][(rot + 1)%4][i][1] - pieces[piece][rot][i][1] + curr_piece[i][1];
     }
-
-
-	for(i = 0;i < 4;i++){
-		data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 0;
-	}
+	removePiece(curr_piece);
 
 	for(i = 0; i < 4;i++){
 		if(newPos[i][0] + 1 > (WIDTH - 1) || newPos[i][0] < 0 || data[(int)newPos[i][1]][(int)newPos[i][0]+1] != 0){
@@ -309,22 +306,18 @@ void rotate(void){
 			curr_piece[i][0] = newPos[i][0];
 			curr_piece[i][1] = newPos[i][1];
 		}
-		for (i = 0; i < 4; i++){
-			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-		}
+		addPiece(curr_piece);
+	
         rot = (rot + 1) % 4;
 	}else{
-		for(i = 0; i < 4;i++){
-			data[(int)curr_piece[i][1]][(int)curr_piece[i][0]] = 1;
-		}
+		addPiece(curr_piece);
+	
 	}
 	return;
 }
 
 void clearRow(int row){
-	//for(int j = 0; j < WIDTH;j++){
-	//	data[row][j] = 0;
-	//}
+
 	for(int j = row;j >0; j--){
 		for(int k = 0; k < WIDTH;k++){
 			data[j][k] = data[j - 1][k];
