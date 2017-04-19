@@ -3,9 +3,9 @@
  ECE 362 - Mini-Project C Source File - Spring 2017
 ***********************************************************************
 	 	   			 		  			 		  		
- Team ID: < ? >
+ Team ID: < 13 >
  Project Name: < ? >
- Team Members:
+ Team Members: Michael Toner, Rahul Patni, Yash Bharatula, Alex Medoff
    - Team/Doc Leader: < ? >      Signature: ______________________
    
    - Software Leader: < ? >      Signature: ______________________
@@ -100,6 +100,7 @@ void removePiece(char part[][2]);
 void gameoverBoard(void);
 void jumpDown(char part[][2]);
 
+/* Flag Declarations */
 char rowCnt = 0;
 char make = 0;
 char row = 0;
@@ -133,13 +134,11 @@ const char pieces[7][4][4][2] = {
         { { 1, 0 }, { 0, -1 }, { 1, -1 }, { 1, 1 } }
     }, // J
     
-    
     {   { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 1, 1 } },
         { { 1, 0 }, { 1, 1 }, { 1, -1 }, { 2, 0 } },
         { { 1, 0 }, { 2, 0 }, { 0, 0 }, { 1, -1 } },
         { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 0 } }
     }, // T
-    
     
     {   { { 1, 1 }, { 1, 0 }, { 0, 0 }, { 2, 1 } },
         { { 1, 1 }, { 0, 1 }, { 0, 2 }, { 1, 0 } },
@@ -158,16 +157,12 @@ const char pieces[7][4][4][2] = {
         { { 1, 1 }, { 0, 1 }, { 2, 1 }, { 3, 1 } },
         { { 2, 0 }, { 2, -1 }, { 2, 1 }, { 2, 2 } }
     }, // Line
-    
+	
     {   { { 1, 0 }, { 0, 0 }, { 2, 0 }, { 2, 1 } },
         { { 1, 0 }, { 1, 1 }, { 1, -1 }, { 2, -1 } },
         { { 1, 0 }, { 2, 0 }, { 0, 0 }, { 0, -1 } },
         { { 1, 0 }, { 1, -1 }, { 1, 1 }, { 0, 1 } }
     }, // L
-
-
-    
-
 };
   
 char curr_piece[4][2];
@@ -255,8 +250,8 @@ void main(void) {
   /* < start of your main loop > */ 
    if(create_new_piece) {
      	create_new_piece = 0;
-		  createPiece();
-	 }
+	createPiece();
+   }
    // Check Left Move
    if(leftbutton && !gameover) {
       leftbutton = 0;
@@ -284,7 +279,7 @@ void createPiece(void){
   char i;	
 	piece = (piece + 1) % 7;		
 	checkCompleteRow();
-  rot = 0;
+  	rot = 0;
 	for (i = 0; i < 4; i++){
 		curr_piece[i][0] = pieces[piece][0][i][0] + WIDTH/2;
 		curr_piece[i][1] = pieces[piece][0][i][1];
