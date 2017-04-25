@@ -23,8 +23,8 @@ Entry point: 0xC029 (_Startup)
 _startupData is allocated at 0xC031 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x900     548
-  _Copy    *toCopyDownBeg 0xCB57
+  _Range   pZeroOut       0x900     554
+  _Copy    *toCopyDownBeg 0xCD3A
 } _startupData;
 
 *********************************************************************************************
@@ -35,10 +35,10 @@ Section Name                    Size  Type     From       To       Segment
 .startData                        10     R     0xC031     0xC03A   ROM_C000
 .rodata                          224     R     0xC03B     0xC11A   ROM_C000
 .rodata1                          44     R     0xC11B     0xC146   ROM_C000
-.text                           2576     R     0xC147     0xCB56   ROM_C000
-.copy                             10     R     0xCB57     0xCB60   ROM_C000
+.text                           3059     R     0xC147     0xCD39   ROM_C000
+.copy                             15     R     0xCD3A     0xCD48   ROM_C000
 .stack                           256   R/W      0x800      0x8FF   RAM
-.data                              4   R/W      0x900      0x903   RAM
+.data                              9   R/W      0x900      0x908   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -263,13 +263,13 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_fff0                  2     R     0xFFF0     0xFFF1   .absSeg221
 .abs_section_ffe0                  2     R     0xFFE0     0xFFE1   .absSeg222
 .abs_section_ffd6                  2     R     0xFFD6     0xFFD7   .absSeg223
-.bss                              13   R/W      0x904      0x910   RAM
-.common                          531   R/W      0x911      0xB23   RAM
+.bss                              14   R/W      0x909      0x916   RAM
+.common                          531   R/W      0x917      0xB29   RAM
 .vectSeg224_vect                   2     R     0xFFFE     0xFFFF   .vectSeg224
 
 Summary of section sizes per section type:
-READ_ONLY (R):         B69 (dec:     2921)
-READ_WRITE (R/W):      324 (dec:      804)
+READ_ONLY (R):         D51 (dec:     3409)
+READ_WRITE (R/W):      32A (dec:      810)
 NO_INIT (N/I):         104 (dec:      260)
 
 *********************************************************************************************
@@ -330,7 +330,7 @@ MODULE:                 -- mc9s12c32.c.o --
      _TCTL2                                      49       1       1       1   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
-     _TIE                                        4C       1       1       2   .abs_section_4c
+     _TIE                                        4C       1       1       3   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
      _TFLG1                                      4E       1       1       1   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
@@ -509,32 +509,34 @@ MODULE:                 -- mc9s12c32.c.o --
 MODULE:                 -- main.c.o --
 - PROCEDURES:
      initializations                           C147      83     131       1   .text       
-     main                                      C1CA      77     119       1   .text       
-     tetrisGame                                C241     117     279       3   .text       
-     chgMode                                   C358      32      50       1   .text       
-     createPiece                               C38A      F2     242       6   .text       
-     checkCompleteRow                          C47C      4E      78       1   .text       
-     initBoard                                 C4CA      28      40       3   .text       
-     gameoverBoard                             C4F2      5B      91       1   .text       
-     addPiece                                  C54D      30      48       5   .text       
-     removePiece                               C57D      2E      46       4   .text       
-     jumpDown                                  C5AB      A9     169       3   .text       
-     rotate                                    C654     10F     271       3   .text       
-     clearRow                                  C763      57      87       1   .text       
-     moveLeft                                  C7BA      78     120       2   .text       
-     moveRight                                 C832      78     120       2   .text       
-     moveDown                                  C8AA      A5     165       3   .text       
-     RTI_ISR                                   C94F      7D     125       1   .text       
-     TIM_ISR7                                  C9CC      31      49       1   .text       
-     displayT                                  C9FD      DF     223       3   .text       
-     shiftout                                  CADC      14      20       1   .text       
-     lcdwait                                   CAF0       A      10       2   .text       
-     send_byte                                 CAFA      11      17       2   .text       
-     send_i                                    CB0B       7       7       7   .text       
-     chgline                                   CB12       E      14       5   .text       
-     print_c                                   CB20       7       7       1   .text       
-     pmsglcd                                   CB27      2F      47       5   .text       
-     SCI_ISR                                   CB56       1       1       1   .text       
+     main                                      C1CA      81     129       1   .text       
+     tetrisGame                                C24B     117     279       3   .text       
+     tron                                      C362      96     150       3   .text       
+     chgMode                                   C3F8      32      50       1   .text       
+     createPiece                               C42A      F4     244       6   .text       
+     checkCompleteRow                          C51E      4E      78       1   .text       
+     initBoard                                 C56C      28      40       4   .text       
+     gameoverBoard                             C594      5D      93       5   .text       
+     addPiece                                  C5F1      30      48       5   .text       
+     removePiece                               C621      2E      46       4   .text       
+     jumpDown                                  C64F      A9     169       3   .text       
+     rotate                                    C6F8     10F     271       3   .text       
+     clearRow                                  C807      57      87       1   .text       
+     moveLeft                                  C85E      78     120       2   .text       
+     moveRight                                 C8D6      78     120       2   .text       
+     moveDown                                  C94E      A5     165       3   .text       
+     RTI_ISR                                   C9F3      7D     125       1   .text       
+     TIM_ISR7                                  CA70      61      97       1   .text       
+     advancePlayer                             CAD1     10F     271       5   .text       
+     displayT                                  CBE0      DF     223       3   .text       
+     shiftout                                  CCBF      14      20       1   .text       
+     lcdwait                                   CCD3       A      10       2   .text       
+     send_byte                                 CCDD      11      17       2   .text       
+     send_i                                    CCEE       7       7       7   .text       
+     chgline                                   CCF5       E      14       5   .text       
+     print_c                                   CD03       7       7       1   .text       
+     pmsglcd                                   CD0A      2F      47       5   .text       
+     SCI_ISR                                   CD39       1       1       1   .text       
 - VARIABLES:
      pieces                                    C03B      E0     224       8   .rodata     
      STRING.Game.mode..1                       C11B       B      11       1   .rodata1    
@@ -546,28 +548,32 @@ MODULE:                 -- main.c.o --
      numPlayers                                 901       1       1       4   .data       
      linecurr                                   902       1       1       2   .data       
      resetflag                                  903       1       1       3   .data       
-     leftbutton                                 904       1       1       8   .bss        
-     rightbutton                                905       1       1       8   .bss        
-     rotflag                                    906       1       1       8   .bss        
-     random                                     907       1       1       2   .bss        
-     tetris                                     908       1       1       3   .bss        
-     r1                                         909       1       1       2   .bss        
-     r2                                         90A       1       1       2   .bss        
-     gameover                                   90B       1       1       6   .bss        
-     rticnt                                     90C       1       1       3   .bss        
-     jumpDownFlag                               90D       1       1       6   .bss        
-     rowsel                                     90E       1       1       1   .bss        
-     create_new_piece                           90F       1       1       7   .bss        
-     gameMode                                   910       1       1       4   .bss        
+     p1                                         904       2       2       5   .data       
+     p2                                         906       2       2       5   .data       
+     p1Vel                                      908       1       1       5   .data       
+     leftbutton                                 909       1       1      12   .bss        
+     rightbutton                                90A       1       1      12   .bss        
+     rotflag                                    90B       1       1      12   .bss        
+     random                                     90C       1       1       2   .bss        
+     tetris                                     90D       1       1       3   .bss        
+     r1                                         90E       1       1       2   .bss        
+     r2                                         90F       1       1       2   .bss        
+     gameover                                   910       1       1      10   .bss        
+     rticnt                                     911       1       1       3   .bss        
+     jumpDownFlag                               912       1       1      10   .bss        
+     rowsel                                     913       1       1       1   .bss        
+     create_new_piece                           914       1       1       7   .bss        
+     gameMode                                   915       1       1       6   .bss        
+     p2Vel                                      916       1       1       5   .bss        
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
      _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
-     count                                      911       1       1       3   .common     
-     p1color                                    912       1       1       7   .common     
-     p2color                                    913       1       1       7   .common     
-     p1_piece                                   914       8       8       8   .common     
-     p2_piece                                   91C       8       8       8   .common     
-     data                                       924     200     512      24   .common     
+     count                                      917       1       1       5   .common     
+     p1color                                    918       1       1      13   .common     
+     p2color                                    919       1       1       9   .common     
+     p1_piece                                   91A       8       8       8   .common     
+     p2_piece                                   922       8       8       8   .common     
+     data                                       92A     200     512      32   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      Init                                      C000      29      41       1   .init       
@@ -582,23 +588,23 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12c32.c.o                              260      0      0
-  main.c.o                                   548   2576    274
+  main.c.o                                   554   3059    274
   Start12.c.o                                  0     49      0
-  other                                      256     12     10
+  other                                      256     12     15
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  initializations main tetrisGame chgMode createPiece checkCompleteRow 
+  initializations main tetrisGame tron chgMode createPiece checkCompleteRow 
   initBoard gameoverBoard addPiece removePiece jumpDown rotate clearRow 
-  moveLeft moveRight moveDown RTI_ISR TIM_ISR7 displayT shiftout lcdwait 
-  send_byte send_i chgline print_c pmsglcd SCI_ISR 
+  moveLeft moveRight moveDown RTI_ISR TIM_ISR7 advancePlayer displayT shiftout 
+  lcdwait send_byte send_i chgline print_c pmsglcd SCI_ISR 
 SECTION: ".data"
-  piece numPlayers linecurr resetflag 
+  piece numPlayers linecurr resetflag p1 p2 p1Vel 
 SECTION: ".bss"
   leftbutton rightbutton rotflag random tetris r1 r2 gameover rticnt 
-  jumpDownFlag rowsel create_new_piece gameMode 
+  jumpDownFlag rowsel create_new_piece gameMode p2Vel 
 SECTION: ".init"
   Init _Startup 
 SECTION: ".rodata"
@@ -1114,7 +1120,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TCTL2                                      49       1       1       1   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
-     _TIE                                        4C       1       1       2   .abs_section_4c
+     _TIE                                        4C       1       1       3   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
      _TFLG1                                      4E       1       1       1   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
@@ -1286,25 +1292,29 @@ OBJECT LIST SORTED BY ADDRESS
      numPlayers                                 901       1       1       4   .data       
      linecurr                                   902       1       1       2   .data       
      resetflag                                  903       1       1       3   .data       
-     leftbutton                                 904       1       1       8   .bss        
-     rightbutton                                905       1       1       8   .bss        
-     rotflag                                    906       1       1       8   .bss        
-     random                                     907       1       1       2   .bss        
-     tetris                                     908       1       1       3   .bss        
-     r1                                         909       1       1       2   .bss        
-     r2                                         90A       1       1       2   .bss        
-     gameover                                   90B       1       1       6   .bss        
-     rticnt                                     90C       1       1       3   .bss        
-     jumpDownFlag                               90D       1       1       6   .bss        
-     rowsel                                     90E       1       1       1   .bss        
-     create_new_piece                           90F       1       1       7   .bss        
-     gameMode                                   910       1       1       4   .bss        
-     count                                      911       1       1       3   .common     
-     p1color                                    912       1       1       7   .common     
-     p2color                                    913       1       1       7   .common     
-     p1_piece                                   914       8       8       8   .common     
-     p2_piece                                   91C       8       8       8   .common     
-     data                                       924     200     512      24   .common     
+     p1                                         904       2       2       5   .data       
+     p2                                         906       2       2       5   .data       
+     p1Vel                                      908       1       1       5   .data       
+     leftbutton                                 909       1       1      12   .bss        
+     rightbutton                                90A       1       1      12   .bss        
+     rotflag                                    90B       1       1      12   .bss        
+     random                                     90C       1       1       2   .bss        
+     tetris                                     90D       1       1       3   .bss        
+     r1                                         90E       1       1       2   .bss        
+     r2                                         90F       1       1       2   .bss        
+     gameover                                   910       1       1      10   .bss        
+     rticnt                                     911       1       1       3   .bss        
+     jumpDownFlag                               912       1       1      10   .bss        
+     rowsel                                     913       1       1       1   .bss        
+     create_new_piece                           914       1       1       7   .bss        
+     gameMode                                   915       1       1       6   .bss        
+     p2Vel                                      916       1       1       5   .bss        
+     count                                      917       1       1       5   .common     
+     p1color                                    918       1       1      13   .common     
+     p2color                                    919       1       1       9   .common     
+     p1_piece                                   91A       8       8       8   .common     
+     p2_piece                                   922       8       8       8   .common     
+     data                                       92A     200     512      32   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029       8       8       0   .init       
      pieces                                    C03B      E0     224       8   .rodata     
@@ -1314,32 +1324,34 @@ OBJECT LIST SORTED BY ADDRESS
      STRING.2.Players.4                        C138       A      10       1   .rodata1    
      STRING.TRON.5                             C142       5       5       1   .rodata1    
      initializations                           C147      83     131       1   .text       
-     main                                      C1CA      77     119       1   .text       
-     tetrisGame                                C241     117     279       3   .text       
-     chgMode                                   C358      32      50       1   .text       
-     createPiece                               C38A      F2     242       6   .text       
-     checkCompleteRow                          C47C      4E      78       1   .text       
-     initBoard                                 C4CA      28      40       3   .text       
-     gameoverBoard                             C4F2      5B      91       1   .text       
-     addPiece                                  C54D      30      48       5   .text       
-     removePiece                               C57D      2E      46       4   .text       
-     jumpDown                                  C5AB      A9     169       3   .text       
-     rotate                                    C654     10F     271       3   .text       
-     clearRow                                  C763      57      87       1   .text       
-     moveLeft                                  C7BA      78     120       2   .text       
-     moveRight                                 C832      78     120       2   .text       
-     moveDown                                  C8AA      A5     165       3   .text       
-     RTI_ISR                                   C94F      7D     125       1   .text       
-     TIM_ISR7                                  C9CC      31      49       1   .text       
-     displayT                                  C9FD      DF     223       3   .text       
-     shiftout                                  CADC      14      20       1   .text       
-     lcdwait                                   CAF0       A      10       2   .text       
-     send_byte                                 CAFA      11      17       2   .text       
-     send_i                                    CB0B       7       7       7   .text       
-     chgline                                   CB12       E      14       5   .text       
-     print_c                                   CB20       7       7       1   .text       
-     pmsglcd                                   CB27      2F      47       5   .text       
-     SCI_ISR                                   CB56       1       1       1   .text       
+     main                                      C1CA      81     129       1   .text       
+     tetrisGame                                C24B     117     279       3   .text       
+     tron                                      C362      96     150       3   .text       
+     chgMode                                   C3F8      32      50       1   .text       
+     createPiece                               C42A      F4     244       6   .text       
+     checkCompleteRow                          C51E      4E      78       1   .text       
+     initBoard                                 C56C      28      40       4   .text       
+     gameoverBoard                             C594      5D      93       5   .text       
+     addPiece                                  C5F1      30      48       5   .text       
+     removePiece                               C621      2E      46       4   .text       
+     jumpDown                                  C64F      A9     169       3   .text       
+     rotate                                    C6F8     10F     271       3   .text       
+     clearRow                                  C807      57      87       1   .text       
+     moveLeft                                  C85E      78     120       2   .text       
+     moveRight                                 C8D6      78     120       2   .text       
+     moveDown                                  C94E      A5     165       3   .text       
+     RTI_ISR                                   C9F3      7D     125       1   .text       
+     TIM_ISR7                                  CA70      61      97       1   .text       
+     advancePlayer                             CAD1     10F     271       5   .text       
+     displayT                                  CBE0      DF     223       3   .text       
+     shiftout                                  CCBF      14      20       1   .text       
+     lcdwait                                   CCD3       A      10       2   .text       
+     send_byte                                 CCDD      11      17       2   .text       
+     send_i                                    CCEE       7       7       7   .text       
+     chgline                                   CCF5       E      14       5   .text       
+     print_c                                   CD03       7       7       1   .text       
+     pmsglcd                                   CD0A      2F      47       5   .text       
+     SCI_ISR                                   CD39       1       1       1   .text       
      _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
@@ -1357,22 +1369,31 @@ main.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xCB57 ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xCD3A ---- SIZE       4 ---
 Filling bytes inserted
- 00040900
-------- ROM-ADDRESS: 0xCB5B ---- RAM-ADDRESS: 0x900 ---- SIZE       1 ---
+ 00090900
+------- ROM-ADDRESS: 0xCD3E ---- RAM-ADDRESS: 0x900 ---- SIZE       1 ---
 Name of initialized Object : piece
  05
-------- ROM-ADDRESS: 0xCB5C ---- RAM-ADDRESS: 0x901 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD3F ---- RAM-ADDRESS: 0x901 ---- SIZE       1 ---
 Name of initialized Object : numPlayers
  02
-------- ROM-ADDRESS: 0xCB5D ---- RAM-ADDRESS: 0x902 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD40 ---- RAM-ADDRESS: 0x902 ---- SIZE       1 ---
 Name of initialized Object : linecurr
  01
-------- ROM-ADDRESS: 0xCB5E ---- RAM-ADDRESS: 0x903 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCD41 ---- RAM-ADDRESS: 0x903 ---- SIZE       1 ---
 Name of initialized Object : resetflag
  01
-------- ROM-ADDRESS: 0xCB5F ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCD42 ---- RAM-ADDRESS: 0x904 ---- SIZE       2 ---
+Name of initialized Object : p1
+ 0805
+------- ROM-ADDRESS: 0xCD44 ---- RAM-ADDRESS: 0x906 ---- SIZE       2 ---
+Name of initialized Object : p2
+ 081A
+------- ROM-ADDRESS: 0xCD46 ---- RAM-ADDRESS: 0x908 ---- SIZE       1 ---
+Name of initialized Object : p1Vel
+ 02
+------- ROM-ADDRESS: 0xCD47 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1388,12 +1409,14 @@ initializations           USES _CLKSEL _PLLCTL _SYNR _REFDV _CRGFLG _COPCTL
                                 _SPIBR _SPICR1 _SPICR2 _PTT send_i lcdwait 
 main                      USES initializations leftbutton gameMode rightbutton 
                                 resetflag chgline STRING.Game.mode..1 pmsglcd 
-                                STRING.1.Player.2 rotflag tetrisGame chgMode 
+                                STRING.1.Player.2 rotflag tetrisGame tron chgMode 
 tetrisGame                USES create_new_piece _TIE initBoard numPlayers 
                                 tetrisGame resetflag p1_piece createPiece leftbutton 
                                 gameover p1color moveLeft rightbutton moveRight rotflag 
                                 r1 rotate jumpDownFlag jumpDown p2_piece p2color 
                                 r2 
+tron                      USES _TIE initBoard p1color p2color tron leftbutton 
+                                gameover p1Vel rightbutton rotflag jumpDownFlag p2Vel 
 chgMode                   USES chgline STRING.1.Player.3 pmsglcd 
                                 STRING.2.Players.4 STRING.TRON.5 
 createPiece               USES piece checkCompleteRow numPlayers createPiece 
@@ -1414,8 +1437,10 @@ moveDown                  USES p1color p2color moveDown data create_new_piece
 RTI_ISR                   USES _CRGFLG random rticnt _ATDCTL45 _ATDSTAT0 
                                 _ATDDR1 leftbutton rightbutton _ATDDR0 jumpDownFlag 
                                 rotflag _ATDDR2 _ATDDR3 
-TIM_ISR7                  USES _TFLG1 displayT count p1_piece moveDown 
-                                numPlayers p2_piece 
+TIM_ISR7                  USES _TFLG1 displayT count gameMode p1_piece 
+                                moveDown numPlayers p2_piece p1 p1Vel p1color 
+                                advancePlayer p2 p2Vel p2color 
+advancePlayer             USES advancePlayer data gameoverBoard p1color p1 p2 
 displayT                  USES _PTT _SPIDR _SPISR data displayT rowsel 
 shiftout                  USES _SPISR _SPIDR 
 send_byte                 USES shiftout _PTT lcdwait 
@@ -1500,6 +1525,10 @@ DEPENDENCY TREE
  |  |  |     
  |  |  +- jumpDown            
  |  |       
+ |  +- tron                
+ |  |  | 
+ |  |  +- initBoard            (see above)
+ |  |     
  |  +- chgMode             
  |     | 
  |     +- chgline              (see above)
@@ -1523,7 +1552,11 @@ DEPENDENCY TREE
     +- displayT            
     |    
     +- moveDown            
-         
+    |    
+    +- advancePlayer       
+       | 
+       +- gameoverBoard        (see above)
+          
  _Vector_20          
  | 
  +- SCI_ISR             
@@ -1534,6 +1567,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 7
-Total size of all blocks to be downloaded: 2921
+Number of blocks to be downloaded: 8
+Total size of all blocks to be downloaded: 3409
 

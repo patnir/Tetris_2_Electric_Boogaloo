@@ -103,7 +103,7 @@ void initBoard(void);
 void createPiece(char curr_piece[][2],char players);
 void addPiece(char part[][2],char color);
 void removePiece(char part[][2]);
-void gameoverBoard(void);
+void gameoverBoard(char color);
 void jumpDown(char part[][2],char player);
 void tetrisGame(int players);
 void printMenu(void);
@@ -116,7 +116,9 @@ void send_i(char x);
 void chgline(char x);
 void print_c(char x);
 void pmsglcd(char[]); 
-//void tron(void);
+void tron(void);\
+void advancePlayer(char player[2],char vel,char color);
+
 
 
 /* Flag Declarations */
@@ -150,7 +152,15 @@ char linecurr = 1;
 char resetflag = 1;
 char gameMode = 0;
 
-//char p1[] = {0,0};
+//North 0
+//East 1
+//South 2
+//West 3
+char p1[] = {WIDTH/2,5};       
+char p2[] = {WIDTH/2,HEIGHT-6};
+char p1Vel = 2;
+char p2Vel = 0;
+  
 
 const char pieces[7][4][4][2] = {
     {   { { 1, 1 }, { 1, 0 }, { 0, 1 }, { 2, 0 } },
@@ -321,7 +331,7 @@ EnableInterrupts;
         tetrisGame(gameMode + 1);
       }
       if(gameMode == 2){
-      //  tron(); 
+        tron(); 
       }
     }
 
@@ -419,37 +429,51 @@ void tetrisGame(int players){
      } /* loop forever */
   
 }
-/*
+
 void tron(void){
     TIE = 0x80;
     initBoard();
     
     p1color = PURPLE;
     p2color = GREEN;
- //   p1 = 
     
     for(;;){
       if(left1 && !gameover) {
         leftbutton &= 2;
-        moveLeft(p1,p1color); 
+        p1Vel = 3; 
       }
       if(right1 && !gameover) {
         rightbutton &= 2;
-        moveRight(p1,p1color);
+        p1Vel = 1;
       }
       if(rot1){
         rotflag &= 2;
-        rotate(p1,p1color,&r1);  
+        p1Vel = 0;  
       }
       if(down1){
         jumpDownFlag &= 2;
-        jumpDown(p1,1);  
+        p1Vel = 2;  
       }
-      
+      if(left2 && !gameover) {
+        leftbutton &= 1;
+        p2Vel = 3; 
+      }
+      if(right2 && !gameover) {
+        rightbutton &= 1;
+        p2Vel = 1;
+      }
+      if(rot2){
+        rotflag &= 1;
+        p2Vel = 0;  
+      }
+      if(down2){
+        jumpDownFlag &= 1;
+        p2Vel = 2;  
+      } 
     }
     
 }
-  */
+  
 void chgMode(char mode){
   if(mode == 0){
     chgline(LINE2);
@@ -498,7 +522,7 @@ void createPiece(char curr_piece[][2],char player){
     }
   }
   if(gameover){
-    gameoverBoard();
+    gameoverBoard(RED);
   }else{
     addPiece(curr_piece,piece);
   }
@@ -540,7 +564,7 @@ void initBoard(void){
   }
 }
 
-void gameoverBoard(void){
+void gameoverBoard(char color){
   char i;
   char j;
   
@@ -549,12 +573,12 @@ void gameoverBoard(void){
 for(i = 0; i < HEIGHT;i+=2){
 for(j = 0; j < WIDTH;j+=2){
 data[j][i] = 0;
-data[j + 1][i] = RED;
+data[j + 1][i] = color;
 }
 }
 for(i = 1; i < HEIGHT;i+=2){
 for(j = 0; j < WIDTH;j+=2){
-data[j][i] = RED;
+data[j][i] = color;
 data[j + 1][i] = 0;
 }
 }
@@ -811,45 +835,92 @@ interrupt 15 void TIM_ISR7(void)
   // clear TIM CH 7 interrupt flag
   TFLG1 = TFLG1 | 0x80;
   displayT();
-  
-  if(count == 50){
-   count = 0;
-   moveDown(p1_piece,1);
-   /*
-   // Remove current piece from data
-      for(i = 0;i < 4;i++){
-        data[p1_piece[i][0]][p1_piece[i][1]] = 0;
-      }
-      // Check if there is something below it, or its at the bottom
-      for(i = 0;i < 4;i++) {
-        if(p1_piece[i][1] + 1 > 31 || data[p1_piece[i][0]][p1_piece[i][1] + 1] != 0){
-          stop = 1;
-          break;
-        }
-      }
-      // If there's not, move it down
-      if(!stop){
-         //move down;
-         for(i = 0;i < 4;i++) {
-          data[p1_piece[i][0]][++p1_piece[i][1]] = p1color + 1;
-         }
-      } 
-      // If there is, keep it
-      else {
-        for(i = 0;i < 4;i++) 
-          data[p1_piece[i][0]][p1_piece[i][1]] = p1color + 1;
-          create_new_piece |= 1;
-      }
-   */   
-      if(numPlayers == 2){
-         
-         moveDown(p2_piece,2);
-      }
-          
+   count++;
+  if(gameMode != 2){
+    if(count == 50){
+     count = 0;
+     moveDown(p1_piece,1);
+    
+     if(numPlayers == 2){
+       moveDown(p2_piece,2);
+     }
+            
+    }
+  }else{
+    if(count == 25){
+      count = 0;
+      advancePlayer(p1,p1Vel,p1color);
+      advancePlayer(p2,p2Vel,p2color);
+    }
   }
-  count++;
+
   
 }
+
+void advancePlayer(char player[2],char vel,char color){
+  if(vel == 0){
+    if(data[player[0]][player[1]-1] != 0 || player[1] - 1 < 0){
+      if(color == PURPLE){
+        gameoverBoard(GREEN);
+      }else{
+        gameoverBoard(PURPLE);
+      }
+    }else{
+      data[player[0]][player[1]-1] = color;
+      if(color == p1color){
+        p1[1] = p1[1] - 1;
+      }else{
+        p2[1] = p2[1] - 1;
+      }
+    }
+  }if(vel == 1){
+    if(data[player[0] - 1][player[1]] != 0 || player[0] - 1 < 0){
+      if(color == PURPLE){
+        gameoverBoard(GREEN);
+      }else{
+        gameoverBoard(PURPLE);
+      }
+    }else{
+      data[player[0] - 1][player[1]] = color;
+      if(color == p1color){
+        p1[0] = p1[0] - 1;
+      }else{
+        p2[0] = p2[0] - 1;
+      }
+    }
+  }if(vel == 2){
+    if(data[player[0]][player[1] + 1] != 0 || player[1] + 1 > HEIGHT - 1){
+      if(color == PURPLE){
+        gameoverBoard(GREEN);
+      }else{
+        gameoverBoard(PURPLE);
+      }
+    }else{
+      data[player[0]][player[1]+1] = color;
+      if(color == p1color){
+        p1[1] = p1[1] + 1;
+      }else{
+        p2[1] = p2[1] + 1;
+      }
+    }
+  }if(vel == 3){
+    if(data[player[0] + 1][player[1]] != 0 || player[0] + 1 > WIDTH - 1){
+      if(color == PURPLE){
+        gameoverBoard(GREEN);
+      }else{
+        gameoverBoard(PURPLE);
+      }
+    }else{
+      data[player[0] + 1][player[1]] = color;
+      if(color == p1color){
+        p1[0] = p1[0] + 1;
+      }else{
+        p2[0] = p2[0] + 1;
+      }
+    }
+  }
+}
+
 
 void displayT(void){
   char push = 0;
