@@ -116,7 +116,7 @@ void send_i(char x);
 void chgline(char x);
 void print_c(char x);
 void pmsglcd(char[]); 
-void tron(void);\
+void tron(void);
 void advancePlayer(char player[2],char vel,char color);
 
 
