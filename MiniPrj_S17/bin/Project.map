@@ -1,5 +1,5 @@
 *** EVALUATION ***
-PROGRAM "W:\362Files\MiniPrj_S17\bin\Project.abs"
+PROGRAM "C:\Users\Yashwanth\Desktop\Sophmore Year\Semester 2\ECE362\Tetris\Tetris_2_Electric_Boogaloo\MiniPrj_S17\bin\Project.abs"
 
 *********************************************************************************************
 TARGET SECTION
@@ -7,14 +7,14 @@ TARGET SECTION
 Processor   : Freescale HC12
 Memory Model: SMALL
 File Format : ELF\DWARF 2.0
-Linker      : SmartLinker V-5.0.40 Build 10203, Jul 23 2010
+Linker      : SmartLinker V-5.0.52 Build 15249, Sep  7 2015
 
 *********************************************************************************************
 FILE SECTION
 ---------------------------------------------------------------------------------------------
-mc9s12c32.c.o                           Model: SMALL,         Lang: ANSI-C
-main.c.o                                Model: SMALL,         Lang: ANSI-C
-Start12.c.o                             Model: SMALL,         Lang: ANSI-C
+mc9s12c32.c.o                           Model: SMALL,         Lang: ANSI-C,        Compiler Version: ANSI-C/cC++ Compiler for HC12 V-5.0.46 Build 15249, Sep  7 2015
+main.c.o                                Model: SMALL,         Lang: ANSI-C,        Compiler Version: ANSI-C/cC++ Compiler for HC12 V-5.0.46 Build 15249, Sep  7 2015
+Start12.c.o                             Model: SMALL,         Lang: ANSI-C,        Compiler Version: ANSI-C/cC++ Compiler for HC12 V-5.0.46 Build 15249, Sep  7 2015
 
 *********************************************************************************************
 STARTUP SECTION
@@ -23,8 +23,8 @@ Entry point: 0xC029 (_Startup)
 _startupData is allocated at 0xC031 and uses 6 Bytes
 extern struct _tagStartup {
   unsigned nofZeroOut     1
-  _Range   pZeroOut       0x900     554
-  _Copy    *toCopyDownBeg 0xCD3A
+  _Range   pZeroOut       0x900     563
+  _Copy    *toCopyDownBeg 0xCF76
 } _startupData;
 
 *********************************************************************************************
@@ -33,12 +33,12 @@ Section Name                    Size  Type     From       To       Segment
 ---------------------------------------------------------------------------------------------
 .init                             49     R     0xC000     0xC030   ROM_C000
 .startData                        10     R     0xC031     0xC03A   ROM_C000
-.rodata                          224     R     0xC03B     0xC11A   ROM_C000
-.rodata1                          44     R     0xC11B     0xC146   ROM_C000
-.text                           3059     R     0xC147     0xCD39   ROM_C000
-.copy                             15     R     0xCD3A     0xCD48   ROM_C000
+.rodata                          372     R     0xC03B     0xC1AE   ROM_C000
+.rodata1                          65     R     0xC1AF     0xC1EF   ROM_C000
+.text                           3462     R     0xC1F0     0xCF75   ROM_C000
+.copy                             18     R     0xCF76     0xCF87   ROM_C000
 .stack                           256   R/W      0x800      0x8FF   RAM
-.data                              9   R/W      0x900      0x908   RAM
+.data                             12   R/W      0x900      0x90B   RAM
 .abs_section_8                     1   N/I        0x8        0x8   .absSeg0
 .abs_section_9                     1   N/I        0x9        0x9   .absSeg1
 .abs_section_a                     1   N/I        0xA        0xA   .absSeg2
@@ -263,13 +263,13 @@ Section Name                    Size  Type     From       To       Segment
 .abs_section_fff0                  2     R     0xFFF0     0xFFF1   .absSeg221
 .abs_section_ffe0                  2     R     0xFFE0     0xFFE1   .absSeg222
 .abs_section_ffd6                  2     R     0xFFD6     0xFFD7   .absSeg223
-.bss                              14   R/W      0x909      0x916   RAM
-.common                          531   R/W      0x917      0xB29   RAM
+.bss                              20   R/W      0x90C      0x91F   RAM
+.common                          531   R/W      0x920      0xB32   RAM
 .vectSeg224_vect                   2     R     0xFFFE     0xFFFF   .vectSeg224
 
 Summary of section sizes per section type:
-READ_ONLY (R):         D51 (dec:     3409)
-READ_WRITE (R/W):      32A (dec:      810)
+READ_ONLY (R):         F90 (dec:     3984)
+READ_WRITE (R/W):      333 (dec:      819)
 NO_INIT (N/I):         104 (dec:      260)
 
 *********************************************************************************************
@@ -330,7 +330,7 @@ MODULE:                 -- mc9s12c32.c.o --
      _TCTL2                                      49       1       1       1   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
-     _TIE                                        4C       1       1       3   .abs_section_4c
+     _TIE                                        4C       1       1       4   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
      _TFLG1                                      4E       1       1       1   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
@@ -340,7 +340,7 @@ MODULE:                 -- mc9s12c32.c.o --
      _ATDTEST1                                   89       1       1       0   .abs_section_89
      _ATDSTAT1                                   8B       1       1       0   .abs_section_8b
      _ATDDIEN                                    8D       1       1       1   .abs_section_8d
-     _PORTAD0                                    8F       1       1       0   .abs_section_8f
+     _PORTAD0                                    8F       1       1       4   .abs_section_8f
      _SCICR1                                     CA       1       1       1   .abs_section_ca
      _SCICR2                                     CB       1       1       1   .abs_section_cb
      _SCISR1                                     CC       1       1       0   .abs_section_cc
@@ -352,14 +352,14 @@ MODULE:                 -- mc9s12c32.c.o --
      _SPIBR                                      DA       1       1       1   .abs_section_da
      _SPISR                                      DB       1       1       3   .abs_section_db
      _SPIDR                                      DD       1       1       3   .abs_section_dd
-     _PWME                                       E0       1       1       0   .abs_section_e0
-     _PWMPOL                                     E1       1       1       0   .abs_section_e1
-     _PWMCLK                                     E2       1       1       0   .abs_section_e2
-     _PWMPRCLK                                   E3       1       1       0   .abs_section_e3
-     _PWMCAE                                     E4       1       1       0   .abs_section_e4
-     _PWMCTL                                     E5       1       1       0   .abs_section_e5
+     _PWME                                       E0       1       1       1   .abs_section_e0
+     _PWMPOL                                     E1       1       1       1   .abs_section_e1
+     _PWMCLK                                     E2       1       1       1   .abs_section_e2
+     _PWMPRCLK                                   E3       1       1       1   .abs_section_e3
+     _PWMCAE                                     E4       1       1       1   .abs_section_e4
+     _PWMCTL                                     E5       1       1       1   .abs_section_e5
      _PWMSCLA                                    E8       1       1       0   .abs_section_e8
-     _PWMSCLB                                    E9       1       1       0   .abs_section_e9
+     _PWMSCLB                                    E9       1       1       1   .abs_section_e9
      _PWMSDN                                     FE       1       1       0   .abs_section_fe
      _FCLKDIV                                   100       1       1       0   .abs_section_100
      _FSEC                                      101       1       1       0   .abs_section_101
@@ -430,7 +430,7 @@ MODULE:                 -- mc9s12c32.c.o --
      _RDRT                                      243       1       1       0   .abs_section_243
      _PERT                                      244       1       1       0   .abs_section_244
      _PPST                                      245       1       1       0   .abs_section_245
-     _MODRR                                     247       1       1       0   .abs_section_247
+     _MODRR                                     247       1       1       1   .abs_section_247
      _PTS                                       248       1       1       0   .abs_section_248
      _PTIS                                      249       1       1       0   .abs_section_249
      _DDRS                                      24A       1       1       0   .abs_section_24a
@@ -499,81 +499,93 @@ MODULE:                 -- mc9s12c32.c.o --
      _PWMCNT23                                   EE       2       2       0   .abs_section_ee
      _PWMCNT45                                   F0       2       2       0   .abs_section_f0
      _PWMPER01                                   F2       2       2       0   .abs_section_f2
-     _PWMPER23                                   F4       2       2       0   .abs_section_f4
+     _PWMPER23                                   F4       2       2       4   .abs_section_f4
      _PWMPER45                                   F6       2       2       0   .abs_section_f6
      _PWMDTY01                                   F8       2       2       0   .abs_section_f8
-     _PWMDTY23                                   FA       2       2       0   .abs_section_fa
+     _PWMDTY23                                   FA       2       2       3   .abs_section_fa
      _PWMDTY45                                   FC       2       2       0   .abs_section_fc
      _CANRXTSR                                  16E       2       2       0   .abs_section_16e
      _CANTXTSR                                  17E       2       2       0   .abs_section_17e
 MODULE:                 -- main.c.o --
 - PROCEDURES:
-     initializations                           C147      83     131       1   .text       
-     main                                      C1CA      81     129       1   .text       
-     tetrisGame                                C24B     117     279       3   .text       
-     tron                                      C362      96     150       3   .text       
-     chgMode                                   C3F8      32      50       1   .text       
-     createPiece                               C42A      F4     244       6   .text       
-     checkCompleteRow                          C51E      4E      78       1   .text       
-     initBoard                                 C56C      28      40       4   .text       
-     gameoverBoard                             C594      5D      93       5   .text       
-     addPiece                                  C5F1      30      48       5   .text       
-     removePiece                               C621      2E      46       4   .text       
-     jumpDown                                  C64F      A9     169       3   .text       
-     rotate                                    C6F8     10F     271       3   .text       
-     clearRow                                  C807      57      87       1   .text       
-     moveLeft                                  C85E      78     120       2   .text       
-     moveRight                                 C8D6      78     120       2   .text       
-     moveDown                                  C94E      A5     165       3   .text       
-     RTI_ISR                                   C9F3      7D     125       1   .text       
-     TIM_ISR7                                  CA70      61      97       1   .text       
-     advancePlayer                             CAD1     10F     271       5   .text       
-     displayT                                  CBE0      DF     223       3   .text       
-     shiftout                                  CCBF      14      20       1   .text       
-     lcdwait                                   CCD3       A      10       2   .text       
-     send_byte                                 CCDD      11      17       2   .text       
-     send_i                                    CCEE       7       7       7   .text       
-     chgline                                   CCF5       E      14       5   .text       
-     print_c                                   CD03       7       7       1   .text       
-     pmsglcd                                   CD0A      2F      47       5   .text       
-     SCI_ISR                                   CD39       1       1       1   .text       
+     initializations                           C1F0      A4     164       1   .text       
+     main                                      C294      91     145       1   .text       
+     tetrisGame                                C325     123     291       3   .text       
+     tron                                      C448      A2     162       3   .text       
+     paint                                     C4EA     110     272      12   .text       
+     chgMode                                   C5FA      3B      59       1   .text       
+     createPiece                               C635      FF     255       6   .text       
+     checkCompleteRow                          C734      4E      78       1   .text       
+     initBoard                                 C782      28      40       5   .text       
+     gameoverBoard                             C7AA      5D      93       5   .text       
+     addPiece                                  C807      30      48       5   .text       
+     removePiece                               C837      2E      46       4   .text       
+     rotate                                    C865     10F     271       3   .text       
+     clearRow                                  C974      7A     122       1   .text       
+     moveLeft                                  C9EE      78     120       2   .text       
+     moveRight                                 CA66      78     120       2   .text       
+     moveDown                                  CADE      A5     165       5   .text       
+     RTI_ISR                                   CB83      BE     190       1   .text       
+     TIM_ISR7                                  CC41      B8     184       1   .text       
+     advancePlayer                             CCF9     10F     271       5   .text       
+     displayT                                  CE08      F3     243       4   .text       
+     shiftout                                  CEFB      14      20       1   .text       
+     lcdwait                                   CF0F       A      10       2   .text       
+     send_byte                                 CF19      11      17       2   .text       
+     send_i                                    CF2A       7       7       7   .text       
+     chgline                                   CF31       E      14       3   .text       
+     print_c                                   CF3F       7       7       1   .text       
+     pmsglcd                                   CF46      2F      47       7   .text       
+     SCI_ISR                                   CF75       1       1       1   .text       
 - VARIABLES:
      pieces                                    C03B      E0     224       8   .rodata     
-     STRING.Game.mode..1                       C11B       B      11       1   .rodata1    
-     STRING.1.Player.2                         C126       9       9       1   .rodata1    
-     STRING.1.Player.3                         C12F       9       9       1   .rodata1    
-     STRING.2.Players.4                        C138       A      10       1   .rodata1    
-     STRING.TRON.5                             C142       5       5       1   .rodata1    
-     piece                                      900       1       1       6   .data       
-     numPlayers                                 901       1       1       4   .data       
+     notes                                     C11B      14      20       2   .rodata     
+     song                                      C12F      80     128       1   .rodata     
+     STRING.Game.mode..1                       C1AF       B      11       1   .rodata1    
+     STRING.1.Player.2                         C1BA       9       9       1   .rodata1    
+     STRING................3                   C1C3       F      15       1   .rodata1    
+     STRING.1.Player.4                         C1D2       9       9       1   .rodata1    
+     STRING.2.Players.5                        C1DB       A      10       1   .rodata1    
+     STRING.TRON.6                             C1E5       5       5       1   .rodata1    
+     STRING.Paint.7                            C1EA       6       6       1   .rodata1    
+     piece                                      900       1       1       7   .data       
+     numPlayers                                 901       1       1       5   .data       
      linecurr                                   902       1       1       2   .data       
      resetflag                                  903       1       1       3   .data       
      p1                                         904       2       2       5   .data       
      p2                                         906       2       2       5   .data       
      p1Vel                                      908       1       1       5   .data       
-     leftbutton                                 909       1       1      12   .bss        
-     rightbutton                                90A       1       1      12   .bss        
-     rotflag                                    90B       1       1      12   .bss        
-     random                                     90C       1       1       2   .bss        
-     tetris                                     90D       1       1       3   .bss        
-     r1                                         90E       1       1       2   .bss        
-     r2                                         90F       1       1       2   .bss        
-     gameover                                   910       1       1      10   .bss        
-     rticnt                                     911       1       1       3   .bss        
-     jumpDownFlag                               912       1       1      10   .bss        
-     rowsel                                     913       1       1       1   .bss        
-     create_new_piece                           914       1       1       7   .bss        
-     gameMode                                   915       1       1       6   .bss        
-     p2Vel                                      916       1       1       5   .bss        
+     brush                                      909       2       2      13   .data       
+     direction                                  90B       1       1       8   .data       
+     leftbutton                                 90C       1       1      14   .bss        
+     rightbutton                                90D       1       1      14   .bss        
+     rotflag                                    90E       1       1      14   .bss        
+     random                                     90F       1       1       2   .bss        
+     tetris                                     910       1       1       3   .bss        
+     r1                                         911       1       1       2   .bss        
+     r2                                         912       1       1       2   .bss        
+     gameover                                   913       1       1      10   .bss        
+     rticnt                                     914       1       1       3   .bss        
+     jumpDownFlag                               915       1       1      12   .bss        
+     rowsel                                     916       1       1       1   .bss        
+     create_new_piece                           917       1       1       6   .bss        
+     gameMode                                   918       1       1       7   .bss        
+     prevColor                                  919       1       1       2   .bss        
+     prevSelect                                 91A       1       1       2   .bss        
+     colorflag                                  91B       1       1       3   .bss        
+     selectflag                                 91C       1       1       3   .bss        
+     pwmctr                                     91D       1       1       3   .bss        
+     songctr                                    91E       1       1       4   .bss        
+     p2Vel                                      91F       1       1       5   .bss        
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
      _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
-     count                                      917       1       1       5   .common     
-     p1color                                    918       1       1      13   .common     
-     p2color                                    919       1       1       9   .common     
-     p1_piece                                   91A       8       8       8   .common     
-     p2_piece                                   922       8       8       8   .common     
-     data                                       92A     200     512      32   .common     
+     count                                      920       1       1       5   .common     
+     p1color                                    921       1       1      19   .common     
+     p2color                                    922       1       1       8   .common     
+     p1_piece                                   923       8       8       8   .common     
+     p2_piece                                   92B       8       8       8   .common     
+     data                                       933     200     512      39   .common     
 MODULE:                 -- Start12.c.o --
 - PROCEDURES:
      Init                                      C000      29      41       1   .init       
@@ -588,30 +600,31 @@ MODULE STATISTIC
   Name                                      Data   Code  Const
 ---------------------------------------------------------------------------------------------
   mc9s12c32.c.o                              260      0      0
-  main.c.o                                   554   3059    274
+  main.c.o                                   563   3462    443
   Start12.c.o                                  0     49      0
-  other                                      256     12     15
+  other                                      256     12     18
 
 *********************************************************************************************
 SECTION USE IN OBJECT-ALLOCATION SECTION
 ---------------------------------------------------------------------------------------------
 SECTION: ".text"
-  initializations main tetrisGame tron chgMode createPiece checkCompleteRow 
-  initBoard gameoverBoard addPiece removePiece jumpDown rotate clearRow 
+  initializations main tetrisGame tron paint chgMode createPiece 
+  checkCompleteRow initBoard gameoverBoard addPiece removePiece rotate clearRow 
   moveLeft moveRight moveDown RTI_ISR TIM_ISR7 advancePlayer displayT shiftout 
   lcdwait send_byte send_i chgline print_c pmsglcd SCI_ISR 
 SECTION: ".data"
-  piece numPlayers linecurr resetflag p1 p2 p1Vel 
+  piece numPlayers linecurr resetflag p1 p2 p1Vel brush direction 
 SECTION: ".bss"
   leftbutton rightbutton rotflag random tetris r1 r2 gameover rticnt 
-  jumpDownFlag rowsel create_new_piece gameMode p2Vel 
+  jumpDownFlag rowsel create_new_piece gameMode prevColor prevSelect colorflag 
+  selectflag pwmctr songctr p2Vel 
 SECTION: ".init"
   Init _Startup 
 SECTION: ".rodata"
-  pieces 
+  pieces notes song 
 SECTION: ".rodata1"
-  STRING.Game.mode..1 STRING.1.Player.2 STRING.1.Player.3 STRING.2.Players.4 
-  STRING.TRON.5 
+  STRING.Game.mode..1 STRING.1.Player.2 STRING................3 
+  STRING.1.Player.4 STRING.2.Players.5 STRING.TRON.6 STRING.Paint.7 
 SECTION: ".abs_section_8"
   _PORTE 
 SECTION: ".abs_section_9"
@@ -1120,7 +1133,7 @@ OBJECT LIST SORTED BY ADDRESS
      _TCTL2                                      49       1       1       1   .abs_section_49
      _TCTL3                                      4A       1       1       0   .abs_section_4a
      _TCTL4                                      4B       1       1       0   .abs_section_4b
-     _TIE                                        4C       1       1       3   .abs_section_4c
+     _TIE                                        4C       1       1       4   .abs_section_4c
      _TSCR2                                      4D       1       1       1   .abs_section_4d
      _TFLG1                                      4E       1       1       1   .abs_section_4e
      _TFLG2                                      4F       1       1       0   .abs_section_4f
@@ -1141,7 +1154,7 @@ OBJECT LIST SORTED BY ADDRESS
      _ATDTEST1                                   89       1       1       0   .abs_section_89
      _ATDSTAT1                                   8B       1       1       0   .abs_section_8b
      _ATDDIEN                                    8D       1       1       1   .abs_section_8d
-     _PORTAD0                                    8F       1       1       0   .abs_section_8f
+     _PORTAD0                                    8F       1       1       4   .abs_section_8f
      _ATDDR0                                     90       2       2       2   .abs_section_90
      _ATDDR1                                     92       2       2       2   .abs_section_92
      _ATDDR2                                     94       2       2       2   .abs_section_94
@@ -1162,22 +1175,22 @@ OBJECT LIST SORTED BY ADDRESS
      _SPIBR                                      DA       1       1       1   .abs_section_da
      _SPISR                                      DB       1       1       3   .abs_section_db
      _SPIDR                                      DD       1       1       3   .abs_section_dd
-     _PWME                                       E0       1       1       0   .abs_section_e0
-     _PWMPOL                                     E1       1       1       0   .abs_section_e1
-     _PWMCLK                                     E2       1       1       0   .abs_section_e2
-     _PWMPRCLK                                   E3       1       1       0   .abs_section_e3
-     _PWMCAE                                     E4       1       1       0   .abs_section_e4
-     _PWMCTL                                     E5       1       1       0   .abs_section_e5
+     _PWME                                       E0       1       1       1   .abs_section_e0
+     _PWMPOL                                     E1       1       1       1   .abs_section_e1
+     _PWMCLK                                     E2       1       1       1   .abs_section_e2
+     _PWMPRCLK                                   E3       1       1       1   .abs_section_e3
+     _PWMCAE                                     E4       1       1       1   .abs_section_e4
+     _PWMCTL                                     E5       1       1       1   .abs_section_e5
      _PWMSCLA                                    E8       1       1       0   .abs_section_e8
-     _PWMSCLB                                    E9       1       1       0   .abs_section_e9
+     _PWMSCLB                                    E9       1       1       1   .abs_section_e9
      _PWMCNT01                                   EC       2       2       0   .abs_section_ec
      _PWMCNT23                                   EE       2       2       0   .abs_section_ee
      _PWMCNT45                                   F0       2       2       0   .abs_section_f0
      _PWMPER01                                   F2       2       2       0   .abs_section_f2
-     _PWMPER23                                   F4       2       2       0   .abs_section_f4
+     _PWMPER23                                   F4       2       2       4   .abs_section_f4
      _PWMPER45                                   F6       2       2       0   .abs_section_f6
      _PWMDTY01                                   F8       2       2       0   .abs_section_f8
-     _PWMDTY23                                   FA       2       2       0   .abs_section_fa
+     _PWMDTY23                                   FA       2       2       3   .abs_section_fa
      _PWMDTY45                                   FC       2       2       0   .abs_section_fc
      _PWMSDN                                     FE       1       1       0   .abs_section_fe
      _FCLKDIV                                   100       1       1       0   .abs_section_100
@@ -1251,7 +1264,7 @@ OBJECT LIST SORTED BY ADDRESS
      _RDRT                                      243       1       1       0   .abs_section_243
      _PERT                                      244       1       1       0   .abs_section_244
      _PPST                                      245       1       1       0   .abs_section_245
-     _MODRR                                     247       1       1       0   .abs_section_247
+     _MODRR                                     247       1       1       1   .abs_section_247
      _PTS                                       248       1       1       0   .abs_section_248
      _PTIS                                      249       1       1       0   .abs_section_249
      _DDRS                                      24A       1       1       0   .abs_section_24a
@@ -1288,70 +1301,82 @@ OBJECT LIST SORTED BY ADDRESS
      _RDRAD                                     273       1       1       0   .abs_section_273
      _PERAD                                     274       1       1       0   .abs_section_274
      _PPSAD                                     275       1       1       0   .abs_section_275
-     piece                                      900       1       1       6   .data       
-     numPlayers                                 901       1       1       4   .data       
+     piece                                      900       1       1       7   .data       
+     numPlayers                                 901       1       1       5   .data       
      linecurr                                   902       1       1       2   .data       
      resetflag                                  903       1       1       3   .data       
      p1                                         904       2       2       5   .data       
      p2                                         906       2       2       5   .data       
      p1Vel                                      908       1       1       5   .data       
-     leftbutton                                 909       1       1      12   .bss        
-     rightbutton                                90A       1       1      12   .bss        
-     rotflag                                    90B       1       1      12   .bss        
-     random                                     90C       1       1       2   .bss        
-     tetris                                     90D       1       1       3   .bss        
-     r1                                         90E       1       1       2   .bss        
-     r2                                         90F       1       1       2   .bss        
-     gameover                                   910       1       1      10   .bss        
-     rticnt                                     911       1       1       3   .bss        
-     jumpDownFlag                               912       1       1      10   .bss        
-     rowsel                                     913       1       1       1   .bss        
-     create_new_piece                           914       1       1       7   .bss        
-     gameMode                                   915       1       1       6   .bss        
-     p2Vel                                      916       1       1       5   .bss        
-     count                                      917       1       1       5   .common     
-     p1color                                    918       1       1      13   .common     
-     p2color                                    919       1       1       9   .common     
-     p1_piece                                   91A       8       8       8   .common     
-     p2_piece                                   922       8       8       8   .common     
-     data                                       92A     200     512      32   .common     
+     brush                                      909       2       2      13   .data       
+     direction                                  90B       1       1       8   .data       
+     leftbutton                                 90C       1       1      14   .bss        
+     rightbutton                                90D       1       1      14   .bss        
+     rotflag                                    90E       1       1      14   .bss        
+     random                                     90F       1       1       2   .bss        
+     tetris                                     910       1       1       3   .bss        
+     r1                                         911       1       1       2   .bss        
+     r2                                         912       1       1       2   .bss        
+     gameover                                   913       1       1      10   .bss        
+     rticnt                                     914       1       1       3   .bss        
+     jumpDownFlag                               915       1       1      12   .bss        
+     rowsel                                     916       1       1       1   .bss        
+     create_new_piece                           917       1       1       6   .bss        
+     gameMode                                   918       1       1       7   .bss        
+     prevColor                                  919       1       1       2   .bss        
+     prevSelect                                 91A       1       1       2   .bss        
+     colorflag                                  91B       1       1       3   .bss        
+     selectflag                                 91C       1       1       3   .bss        
+     pwmctr                                     91D       1       1       3   .bss        
+     songctr                                    91E       1       1       4   .bss        
+     p2Vel                                      91F       1       1       5   .bss        
+     count                                      920       1       1       5   .common     
+     p1color                                    921       1       1      19   .common     
+     p2color                                    922       1       1       8   .common     
+     p1_piece                                   923       8       8       8   .common     
+     p2_piece                                   92B       8       8       8   .common     
+     data                                       933     200     512      39   .common     
      Init                                      C000      29      41       1   .init       
      _Startup                                  C029       8       8       0   .init       
      pieces                                    C03B      E0     224       8   .rodata     
-     STRING.Game.mode..1                       C11B       B      11       1   .rodata1    
-     STRING.1.Player.2                         C126       9       9       1   .rodata1    
-     STRING.1.Player.3                         C12F       9       9       1   .rodata1    
-     STRING.2.Players.4                        C138       A      10       1   .rodata1    
-     STRING.TRON.5                             C142       5       5       1   .rodata1    
-     initializations                           C147      83     131       1   .text       
-     main                                      C1CA      81     129       1   .text       
-     tetrisGame                                C24B     117     279       3   .text       
-     tron                                      C362      96     150       3   .text       
-     chgMode                                   C3F8      32      50       1   .text       
-     createPiece                               C42A      F4     244       6   .text       
-     checkCompleteRow                          C51E      4E      78       1   .text       
-     initBoard                                 C56C      28      40       4   .text       
-     gameoverBoard                             C594      5D      93       5   .text       
-     addPiece                                  C5F1      30      48       5   .text       
-     removePiece                               C621      2E      46       4   .text       
-     jumpDown                                  C64F      A9     169       3   .text       
-     rotate                                    C6F8     10F     271       3   .text       
-     clearRow                                  C807      57      87       1   .text       
-     moveLeft                                  C85E      78     120       2   .text       
-     moveRight                                 C8D6      78     120       2   .text       
-     moveDown                                  C94E      A5     165       3   .text       
-     RTI_ISR                                   C9F3      7D     125       1   .text       
-     TIM_ISR7                                  CA70      61      97       1   .text       
-     advancePlayer                             CAD1     10F     271       5   .text       
-     displayT                                  CBE0      DF     223       3   .text       
-     shiftout                                  CCBF      14      20       1   .text       
-     lcdwait                                   CCD3       A      10       2   .text       
-     send_byte                                 CCDD      11      17       2   .text       
-     send_i                                    CCEE       7       7       7   .text       
-     chgline                                   CCF5       E      14       5   .text       
-     print_c                                   CD03       7       7       1   .text       
-     pmsglcd                                   CD0A      2F      47       5   .text       
-     SCI_ISR                                   CD39       1       1       1   .text       
+     notes                                     C11B      14      20       2   .rodata     
+     song                                      C12F      80     128       1   .rodata     
+     STRING.Game.mode..1                       C1AF       B      11       1   .rodata1    
+     STRING.1.Player.2                         C1BA       9       9       1   .rodata1    
+     STRING................3                   C1C3       F      15       1   .rodata1    
+     STRING.1.Player.4                         C1D2       9       9       1   .rodata1    
+     STRING.2.Players.5                        C1DB       A      10       1   .rodata1    
+     STRING.TRON.6                             C1E5       5       5       1   .rodata1    
+     STRING.Paint.7                            C1EA       6       6       1   .rodata1    
+     initializations                           C1F0      A4     164       1   .text       
+     main                                      C294      91     145       1   .text       
+     tetrisGame                                C325     123     291       3   .text       
+     tron                                      C448      A2     162       3   .text       
+     paint                                     C4EA     110     272      12   .text       
+     chgMode                                   C5FA      3B      59       1   .text       
+     createPiece                               C635      FF     255       6   .text       
+     checkCompleteRow                          C734      4E      78       1   .text       
+     initBoard                                 C782      28      40       5   .text       
+     gameoverBoard                             C7AA      5D      93       5   .text       
+     addPiece                                  C807      30      48       5   .text       
+     removePiece                               C837      2E      46       4   .text       
+     rotate                                    C865     10F     271       3   .text       
+     clearRow                                  C974      7A     122       1   .text       
+     moveLeft                                  C9EE      78     120       2   .text       
+     moveRight                                 CA66      78     120       2   .text       
+     moveDown                                  CADE      A5     165       5   .text       
+     RTI_ISR                                   CB83      BE     190       1   .text       
+     TIM_ISR7                                  CC41      B8     184       1   .text       
+     advancePlayer                             CCF9     10F     271       5   .text       
+     displayT                                  CE08      F3     243       4   .text       
+     shiftout                                  CEFB      14      20       1   .text       
+     lcdwait                                   CF0F       A      10       2   .text       
+     send_byte                                 CF19      11      17       2   .text       
+     send_i                                    CF2A       7       7       7   .text       
+     chgline                                   CF31       E      14       3   .text       
+     print_c                                   CF3F       7       7       1   .text       
+     pmsglcd                                   CF46      2F      47       7   .text       
+     SCI_ISR                                   CF75       1       1       1   .text       
      _Vector_20                                FFD6       2       2       0   .abs_section_ffd6
      _Vector_15                                FFE0       2       2       0   .abs_section_ffe0
      _Vector_7                                 FFF0       2       2       0   .abs_section_fff0
@@ -1361,7 +1386,7 @@ UNUSED-OBJECTS SECTION
 ---------------------------------------------------------------------------------------------
 NOT USED PROCEDURES
 main.c.o:
-  inchar outchar 
+  jumpDown inchar outchar 
 NOT USED VARIABLES
 main.c.o:
   leftprev rightprev rotprev rowCnt make row 
@@ -1369,31 +1394,37 @@ main.c.o:
 *********************************************************************************************
 COPYDOWN SECTION
 ---------------------------------------------------------------------------------------------
-------- ROM-ADDRESS: 0xCD3A ---- SIZE       4 ---
+------- ROM-ADDRESS: 0xCF76 ---- SIZE       4 ---
 Filling bytes inserted
- 00090900
-------- ROM-ADDRESS: 0xCD3E ---- RAM-ADDRESS: 0x900 ---- SIZE       1 ---
+ 000C0900
+------- ROM-ADDRESS: 0xCF7A ---- RAM-ADDRESS: 0x900 ---- SIZE       1 ---
 Name of initialized Object : piece
  05
-------- ROM-ADDRESS: 0xCD3F ---- RAM-ADDRESS: 0x901 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCF7B ---- RAM-ADDRESS: 0x901 ---- SIZE       1 ---
 Name of initialized Object : numPlayers
  02
-------- ROM-ADDRESS: 0xCD40 ---- RAM-ADDRESS: 0x902 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCF7C ---- RAM-ADDRESS: 0x902 ---- SIZE       1 ---
 Name of initialized Object : linecurr
  01
-------- ROM-ADDRESS: 0xCD41 ---- RAM-ADDRESS: 0x903 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCF7D ---- RAM-ADDRESS: 0x903 ---- SIZE       1 ---
 Name of initialized Object : resetflag
  01
-------- ROM-ADDRESS: 0xCD42 ---- RAM-ADDRESS: 0x904 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCF7E ---- RAM-ADDRESS: 0x904 ---- SIZE       2 ---
 Name of initialized Object : p1
  0805
-------- ROM-ADDRESS: 0xCD44 ---- RAM-ADDRESS: 0x906 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCF80 ---- RAM-ADDRESS: 0x906 ---- SIZE       2 ---
 Name of initialized Object : p2
  081A
-------- ROM-ADDRESS: 0xCD46 ---- RAM-ADDRESS: 0x908 ---- SIZE       1 ---
+------- ROM-ADDRESS: 0xCF82 ---- RAM-ADDRESS: 0x908 ---- SIZE       1 ---
 Name of initialized Object : p1Vel
  02
-------- ROM-ADDRESS: 0xCD47 ---- SIZE       2 ---
+------- ROM-ADDRESS: 0xCF83 ---- RAM-ADDRESS: 0x909 ---- SIZE       2 ---
+Name of initialized Object : brush
+ 0810
+------- ROM-ADDRESS: 0xCF85 ---- RAM-ADDRESS: 0x90B ---- SIZE       1 ---
+Name of initialized Object : direction
+ 04
+------- ROM-ADDRESS: 0xCF86 ---- SIZE       2 ---
 Filling bytes inserted
  0000
 
@@ -1406,19 +1437,25 @@ initializations           USES _CLKSEL _PLLCTL _SYNR _REFDV _CRGFLG _COPCTL
                                 _SCIBD _SCICR1 _SCICR2 _DDRAB _PORTAB initBoard _DDRT 
                                 _DDRAD _ATDDIEN _TSCR2 _TIOS _TIE _TSCR1 _TCTL1 
                                 _TCTL2 _TC7 _RTICTL _CRGINT _ATDCTL23 _ATDCTL45 
-                                _SPIBR _SPICR1 _SPICR2 _PTT send_i lcdwait 
-main                      USES initializations leftbutton gameMode rightbutton 
-                                resetflag chgline STRING.Game.mode..1 pmsglcd 
-                                STRING.1.Player.2 rotflag tetrisGame tron chgMode 
-tetrisGame                USES create_new_piece _TIE initBoard numPlayers 
-                                tetrisGame resetflag p1_piece createPiece leftbutton 
-                                gameover p1color moveLeft rightbutton moveRight rotflag 
-                                r1 rotate jumpDownFlag jumpDown p2_piece p2color 
-                                r2 
-tron                      USES _TIE initBoard p1color p2color tron leftbutton 
-                                gameover p1Vel rightbutton rotflag jumpDownFlag p2Vel 
-chgMode                   USES chgline STRING.1.Player.3 pmsglcd 
-                                STRING.2.Players.4 STRING.TRON.5 
+                                _SPIBR _SPICR1 _SPICR2 _PTT send_i lcdwait _MODRR 
+                                _PWME _PWMPOL _PWMCTL _PWMCAE _PWMCLK _PWMPRCLK 
+                                _PWMSCLB _PWMPER23 _PWMDTY23 
+main                      USES initializations _PWMPER23 _PWMDTY23 leftbutton 
+                                gameMode rightbutton resetflag chgline 
+                                STRING.Game.mode..1 pmsglcd STRING.1.Player.2 rotflag tetrisGame 
+                                tron paint chgMode 
+tetrisGame                USES leftbutton rightbutton rotflag jumpDownFlag 
+                                create_new_piece _TIE initBoard numPlayers tetrisGame resetflag 
+                                p1_piece createPiece gameover p1color moveLeft 
+                                moveRight r1 rotate moveDown p2_piece p2color r2 
+tron                      USES leftbutton rightbutton rotflag jumpDownFlag 
+                                _TIE initBoard p1color p2color tron gameover p1Vel 
+                                p2Vel 
+paint                     USES _TIE initBoard p1color paint direction brush 
+                                data selectflag colorflag 
+chgMode                   USES chgline STRING................3 pmsglcd 
+                                STRING.1.Player.4 STRING.2.Players.5 STRING.TRON.6 
+                                STRING.Paint.7 
 createPiece               USES piece checkCompleteRow numPlayers createPiece 
                                 pieces data gameover gameoverBoard addPiece p1color 
                                 r1 p2color r2 
@@ -1427,19 +1464,20 @@ initBoard                 USES data
 gameoverBoard             USES initBoard data 
 addPiece                  USES data 
 removePiece               USES data 
-jumpDown                  USES p1color p2color jumpDown data create_new_piece 
 rotate                    USES rotate pieces removePiece data addPiece 
 clearRow                  USES p2_piece p1_piece removePiece data p2color 
-                                p1color addPiece 
+                                p1color addPiece numPlayers 
 moveLeft                  USES removePiece data addPiece 
 moveRight                 USES removePiece data addPiece 
 moveDown                  USES p1color p2color moveDown data create_new_piece 
 RTI_ISR                   USES _CRGFLG random rticnt _ATDCTL45 _ATDSTAT0 
-                                _ATDDR1 leftbutton rightbutton _ATDDR0 jumpDownFlag 
-                                rotflag _ATDDR2 _ATDDR3 
-TIM_ISR7                  USES _TFLG1 displayT count gameMode p1_piece 
-                                moveDown numPlayers p2_piece p1 p1Vel p1color 
-                                advancePlayer p2 p2Vel p2color 
+                                _ATDDR1 leftbutton rightbutton direction _ATDDR0 
+                                jumpDownFlag rotflag _ATDDR2 _ATDDR3 _PORTAD0 prevSelect 
+                                selectflag prevColor colorflag 
+TIM_ISR7                  USES _TFLG1 displayT pwmctr songctr song _PWMPER23 
+                                notes _PWMDTY23 count gameMode p1_piece moveDown 
+                                numPlayers p2_piece p1 p1Vel p1color advancePlayer p2 
+                                p2Vel p2color 
 advancePlayer             USES advancePlayer data gameoverBoard p1color p1 p2 
 displayT                  USES _PTT _SPIDR _SPISR data displayT rowsel 
 shiftout                  USES _SPISR _SPIDR 
@@ -1523,9 +1561,13 @@ DEPENDENCY TREE
  |  |  |  |  
  |  |  |  +- addPiece             (see above)
  |  |  |     
- |  |  +- jumpDown            
+ |  |  +- moveDown            
  |  |       
  |  +- tron                
+ |  |  | 
+ |  |  +- initBoard            (see above)
+ |  |     
+ |  +- paint               
  |  |  | 
  |  |  +- initBoard            (see above)
  |  |     
@@ -1551,8 +1593,8 @@ DEPENDENCY TREE
     | 
     +- displayT            
     |    
-    +- moveDown            
-    |    
+    +- moveDown             (see above)
+    |  
     +- advancePlayer       
        | 
        +- gameoverBoard        (see above)
@@ -1567,6 +1609,6 @@ STATISTIC SECTION
 
 ExeFile:
 --------
-Number of blocks to be downloaded: 8
-Total size of all blocks to be downloaded: 3409
+Number of blocks to be downloaded: 9
+Total size of all blocks to be downloaded: 3984
 

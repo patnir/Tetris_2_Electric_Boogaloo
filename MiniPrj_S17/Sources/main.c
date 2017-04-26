@@ -69,8 +69,10 @@
 #define P2UD ATDDR3H
 #define P2LR ATDDR2H
 //#define rotbutton PORTAD0_PTAD6
+
+#define SSLED PTT_PTT6
+#define changeColor PORTAD0_PTAD6
 #define selectbutton PORTAD0_PTAD7
-#define SSLED PTT_PTT3
 
 #define down1 0b00000001 & jumpDownFlag
 #define down2 0b00000010 & jumpDownFlag
@@ -83,7 +85,7 @@
 #define makepiece1 0b00000001 & create_new_piece
 #define makepiece2 0b00000010 & create_new_piece
 
-#define games 3
+#define games 4
 
 /* LCD COMMUNICATION BIT MASKS */
 #define RS PTT_PTT0		// RS pin mask (PTT[2])
@@ -106,7 +108,7 @@ void removePiece(char part[][2]);
 void gameoverBoard(char color);
 void jumpDown(char part[][2],char player);
 void tetrisGame(int players);
-void printMenu(void);
+//void printMenu(void);
 void moveDown(char part[][2],char player);
 void chgMode(char mode);
 void shiftout(char x);
@@ -118,6 +120,7 @@ void print_c(char x);
 void pmsglcd(char[]); 
 void tron(void);
 void advancePlayer(char player[2],char vel,char color);
+void paint(void);
 
 
 
@@ -150,6 +153,10 @@ char p2color;
 char linecurr = 1;
 char resetflag = 1;
 char gameMode = 0;
+char prevColor = 0;
+char prevSelect = 0;
+char colorflag = 0;
+char selectflag = 0;
 //FOR MUSIC
 unsigned char pwmctr = 0;
 unsigned char songctr = 0;
@@ -163,6 +170,14 @@ char p1[] = {WIDTH/2,5};
 char p2[] = {WIDTH/2,HEIGHT-6};
 char p1Vel = 2;
 char p2Vel = 0;
+char brush[] = {WIDTH/2,HEIGHT/2};
+char direction = 4;
+//DIRECTION
+//0 --> Up
+//1 --> Right
+//2 --> Down
+//3 --> Left
+//4 --> Not Moving
   
 
 const char pieces[7][4][4][2] = {
@@ -218,7 +233,7 @@ const char notes[10][2] = {{255,128},{239,120},{215,107},{203,101},{181,90},{161
    5,5,2,3,4,4,3,2,
    1,1,1,3,5,5,4,3,
    2,2,2,3,4,4,5,5,
-   3,3,1,1,1,1,2,3,
+   3,3,1,-1,1,1,2,3,
    4,4,4,6,8,8,7,6,
    5,5,5,3,5,5,4,3,
    2,2,2,3,4,4,5,5,
@@ -310,16 +325,16 @@ void  initializations(void) {
   lcdwait();
   
   // Initialize PWM
-  MODRR |= 0b00010000;
-  PWME_PWME4 = 1;
+  MODRR |= 0b00001000;
+  PWME_PWME3 = 1;
   PWMPOL |= 0b00100000;
   PWMCTL = 0;
   PWMCAE = 0;
-  PWMCLK_PCLK4 = 1;
+  PWMCLK_PCLK3 = 1;
   PWMPRCLK = 0b00000000;
-  PWMSCLA = 0x7F;
-  PWMPER4 = 215;
-  PWMDTY4 = 215 / 2; // 
+  PWMSCLB = 0x7F;
+  PWMPER3 = 215;
+  PWMDTY3 = 215 / 2; // 
   
   //displayT(); 
 }
@@ -340,8 +355,10 @@ void main(void) {
   DisableInterrupts
 initializations();     
 EnableInterrupts;
-                                                                                                                        
+PWMPER3 = 0;
+PWMDTY3 = 0;                                                                                                                        
  for(;;) {
+    
     if (left1 == 1) {
         leftbutton &= 2;
         gameMode = (gameMode + 1) % games;
@@ -367,6 +384,9 @@ EnableInterrupts;
       if(gameMode == 2){
         tron(); 
       }
+	    if(gameMode == 3){
+		    paint();
+	    }
     }
 
   /* < start of your main loop > */  
@@ -401,6 +421,11 @@ EnableInterrupts;
 }   /* do not leave main */
 
 void tetrisGame(int players){
+     leftbutton = 0;
+     rightbutton = 0;
+     rotflag = 0;
+     jumpDownFlag = 0;
+     gameover = 0;
      if(players == 1){
         create_new_piece = 1;
      }else{
@@ -434,7 +459,8 @@ void tetrisGame(int players){
         }
         if(down1){
           jumpDownFlag &= 2;
-          jumpDown(p1_piece,1);
+          //jumpDown(p1_piece,1);
+          moveDown(p1_piece,1);
     
         }
         if(players == 2){
@@ -456,7 +482,8 @@ void tetrisGame(int players){
            }
            if(down2){
               jumpDownFlag &= 1;
-              jumpDown(p2_piece,2);
+              //jumpDown(p2_piece,2);
+              moveDown(p2_piece,2);
            }
         }
    
@@ -465,6 +492,11 @@ void tetrisGame(int players){
 }
 
 void tron(void){
+    leftbutton = 0;
+    rightbutton = 0;
+    rotflag = 0;
+    jumpDownFlag = 0;
+    gameover = 0;
     TIE = 0x80;
     initBoard();
     
@@ -474,11 +506,11 @@ void tron(void){
     for(;;){
       if(left1 && !gameover) {
         leftbutton &= 2;
-        p1Vel = 3; 
+        p1Vel = 1; 
       }
       if(right1 && !gameover) {
         rightbutton &= 2;
-        p1Vel = 1;
+        p1Vel = 3;
       }
       if(rot1){
         rotflag &= 2;
@@ -490,11 +522,11 @@ void tron(void){
       }
       if(left2 && !gameover) {
         leftbutton &= 1;
-        p2Vel = 3; 
+        p2Vel = 1; 
       }
       if(right2 && !gameover) {
         rightbutton &= 1;
-        p2Vel = 1;
+        p2Vel = 3;
       }
       if(rot2){
         rotflag &= 1;
@@ -507,19 +539,82 @@ void tron(void){
     }
     
 }
+
+void paint(void){
+  char tempColor = 0;
+  TIE = 0x80;
+  initBoard();
+  p1color = RED;
+  data[brush[0]][brush[1]] = p1color;
+  for(;;){
+      
+      if(direction == 0){
+        direction = 4;
+        if(brush[1] > 0){
+          brush[1] -= 1;
+          data[brush[0]][brush[1] + 1] = tempColor;
+          tempColor = data[brush[0]][brush[1]];
+          data[brush[0]][brush[1]] = p1color; 
+        }
+      }
+      if(direction == 1){
+        direction = 4;
+        if(brush[0] < (WIDTH - 1)){
+          brush[0] += 1;
+          data[brush[0] - 1][brush[1]] = tempColor;
+          tempColor = data[brush[0]][brush[1]];
+          data[brush[0]][brush[1]] = p1color; 
+        }
+      }
+      if(direction == 2){
+        direction = 4;
+        if(brush[1] < (HEIGHT - 1)){
+          
+          brush[1] += 1;
+          data[brush[0]][brush[1] - 1] = tempColor;
+          tempColor = data[brush[0]][brush[1]];
+          data[brush[0]][brush[1]] = p1color;
+        }
+      }
+      if(direction == 3){
+        direction = 4;
+        if(brush[0] > 0){
+          brush[0] -= 1;
+          data[brush[0] + 1][brush[1]] = tempColor;
+          tempColor = data[brush[0]][brush[1]];
+          data[brush[0]][brush[1]] = p1color;
+           
+        }
+      }
+      if(selectflag){
+          data[brush[0]][brush[1]] = p1color;
+          tempColor = p1color;
+          selectflag = 0;
+      }
+      if(colorflag){
+          colorflag = 0;
+          p1color = (p1color + 1) % 8;
+          data[brush[0]][brush[1]] = p1color;
+      }
+
+  }
+  return;
+}
   
 void chgMode(char mode){
+  chgline(LINE2);
+  pmsglcd("              ");
   if(mode == 0){
-    chgline(LINE2);
-    pmsglcd("1 Player");
+     pmsglcd("1 Player");
   }
   if(mode == 1){
-    chgline(LINE2);
-    pmsglcd("2 Players");
+     pmsglcd("2 Players");
   }
   if(mode == 2){
-    chgline(LINE2);
-    pmsglcd("TRON"); 
+     pmsglcd("TRON"); 
+  }
+  if(mode == 3){
+	   pmsglcd("Paint");
   }
   
 }
@@ -704,22 +799,22 @@ void rotate(char curr_piece[][2],char color, char *rotAdd){
 void clearRow(int row,char player){
   char j;
   char k;
-  if(player == 1){
+  if(player == 1 && numPlayers == 2){
      removePiece(p2_piece);  
-  }else{
+  }else if(player == 2 && numPlayers == 2){
      removePiece(p1_piece); 
   }
   for(j = row;j >0; j--){
-	for(k = 0; k < WIDTH; k++){
-		data[k][j] = data[k][j-1];
+	  for(k = 0; k < WIDTH; k++){
+		  data[k][j] = data[k][j-1];
     }
   }
-  if(player == 1){
+  if(player == 1 && numPlayers == 2){
     addPiece(p2_piece,p2color);
-  }else{
+  }else if(player == 2 && numPlayers == 2){
     addPiece(p1_piece,p1color); 
   }
-}
+ }
 
 void moveLeft(char part[][2],char color){
 	char stop = 0;
@@ -821,14 +916,18 @@ interrupt 7 void RTI_ISR(void)
       
       if(P1LR < 70){                 
         leftbutton |= 1;
+        direction = 3;
       }else if( P1LR > 180){
         rightbutton |= 1;
+        direction = 1;
       }
       if(P1UD > 200){
         jumpDownFlag |= 1;
+        direction = 2;
       }
       if(P1UD < 70){
         rotflag |= 1; 
+        direction = 0;
       }
       
       
@@ -845,11 +944,16 @@ interrupt 7 void RTI_ISR(void)
       }
       
     }
-     /*
-    if(!rotbutton && rotprev)  // check rotate button
-      rotflag = 1;
-    rotprev = rotbutton;
-       */
+     
+    if(!selectbutton && prevSelect)  // check rotate button
+      selectflag = 1;
+    prevSelect = selectbutton;
+
+    if(!changeColor && prevColor){
+      colorflag = 1;
+    }
+    prevColor = changeColor;
+    
 
 }
 
@@ -870,14 +974,14 @@ interrupt 15 void TIM_ISR7(void)
   TFLG1 = TFLG1 | 0x80;
   displayT();
   if(pwmctr++ == 16) {
-	pwmctr = 0;
-	note = song[songctr++];
-	PWMPER4 = note >= 0 ? notes[note][0] : PWMPER4;
-	PWMDTY4 = note >= 0 ? notes[note][1] : 0;
-	if(songctr == 128) songctr = 0;
+	  pwmctr = 0;
+	  note = song[songctr++];
+	  PWMPER3 = note >= 0 ? notes[note][0] : PWMPER3;
+	  PWMDTY3 = note >= 0 ? notes[note][1] : 0;
+	  if(songctr == 128) songctr = 0;
   }
   count++;
-  if(gameMode != 2){
+  if(gameMode == 0 || gameMode == 1){
     if(count == 50){
      count = 0;
      moveDown(p1_piece,1);
@@ -887,8 +991,8 @@ interrupt 15 void TIM_ISR7(void)
      }
             
     }
-  }else{
-    if(count == 25){
+  }else if(gameMode == 2){
+    if(count == 25 && !gameover){
       count = 0;
       advancePlayer(p1,p1Vel,p1color);
       advancePlayer(p2,p2Vel,p2color);
@@ -903,8 +1007,10 @@ void advancePlayer(char player[2],char vel,char color){
     if(data[player[0]][player[1]-1] != 0 || player[1] - 1 < 0){
       if(color == PURPLE){
         gameoverBoard(GREEN);
+        gameover = 1;
       }else{
         gameoverBoard(PURPLE);
+        gameover = 1;
       }
     }else{
       data[player[0]][player[1]-1] = color;
@@ -918,8 +1024,10 @@ void advancePlayer(char player[2],char vel,char color){
     if(data[player[0] - 1][player[1]] != 0 || player[0] - 1 < 0){
       if(color == PURPLE){
         gameoverBoard(GREEN);
+        gameover = 1;
       }else{
         gameoverBoard(PURPLE);
+        gameover = 1;
       }
     }else{
       data[player[0] - 1][player[1]] = color;
@@ -933,8 +1041,10 @@ void advancePlayer(char player[2],char vel,char color){
     if(data[player[0]][player[1] + 1] != 0 || player[1] + 1 > HEIGHT - 1){
       if(color == PURPLE){
         gameoverBoard(GREEN);
+        gameover = 1;
       }else{
         gameoverBoard(PURPLE);
+        gameover = 1;
       }
     }else{
       data[player[0]][player[1]+1] = color;
@@ -948,8 +1058,10 @@ void advancePlayer(char player[2],char vel,char color){
     if(data[player[0] + 1][player[1]] != 0 || player[0] + 1 > WIDTH - 1){
       if(color == PURPLE){
         gameoverBoard(GREEN);
+        gameover = 1;
       }else{
         gameoverBoard(PURPLE);
+        gameover = 1;
       }
     }else{
       data[player[0] + 1][player[1]] = color;
@@ -1014,6 +1126,8 @@ void displayT(void){
 //    outchar(' ');
     for(k = 0; k < wait*10; k++){}
     SSLED = 0;
+    for(k = 0; k < wait*3; k++){
+    }
        
   }
   SSLED = 0;
