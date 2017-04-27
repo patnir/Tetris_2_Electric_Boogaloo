@@ -68,11 +68,13 @@
 #define P1LR ATDDR1H
 #define P2UD ATDDR3H
 #define P2LR ATDDR2H
+#define P1ROT PORTAD0_PTAD4 
+#define P2ROT PORTAD0_PTAD5
 //#define rotbutton PORTAD0_PTAD6
 
 #define SSLED PTT_PTT6
-#define changeColor PORTAD0_PTAD6
-#define selectbutton PORTAD0_PTAD7
+#define changeColor PORTAD0_PTAD4
+#define selectbutton PORTAD0_PTAD5
 
 #define down1 0b00000001 & jumpDownFlag
 #define down2 0b00000010 & jumpDownFlag
@@ -82,6 +84,8 @@
 #define right2 0b00000010 & rightbutton
 #define rot1 0b00000001 & rotflag
 #define rot2 0b00000010 & rotflag
+#define up1flag 0b00000001 & upflag
+#define up2flag 0b00000010 & upflag
 #define makepiece1 0b00000001 & create_new_piece
 #define makepiece2 0b00000010 & create_new_piece
 
@@ -133,6 +137,7 @@ int curr = 0;*/
 char leftbutton = 0;
 char rightbutton = 0;
 char rotflag = 0;
+char upflag = 0;
 char leftprev = 1;
 char rightprev = 1;
 char rotprev = 1;
@@ -157,6 +162,8 @@ char prevColor = 0;
 char prevSelect = 0;
 char colorflag = 0;
 char selectflag = 0;
+char prevrot1 = 0;
+char prevrot2 = 0;
 //FOR MUSIC
 unsigned char pwmctr = 0;
 unsigned char songctr = 0;
@@ -283,7 +290,7 @@ void  initializations(void) {
   DDRT = 0xFF; 
   //LCD INITALIZATION
   DDRAD = 0b00000000;
-  ATDDIEN = 0b11000000;
+  ATDDIEN = 0b11110000;
   TSCR2 = 0x0C;
   TIOS = 0xC0;
   TIE = 0x00;
@@ -376,8 +383,8 @@ PWMDTY3 = 0;
       chgline(LINE2);
       pmsglcd("1 Player");
     }
-    if(rotflag == 1){
-      rotflag = 0;
+    if(selectflag == 1){
+      selectflag = 0;
       if(gameMode <2){
         tetrisGame(gameMode + 1);
       }
@@ -497,6 +504,7 @@ void tron(void){
     rotflag = 0;
     jumpDownFlag = 0;
     gameover = 0;
+    upflag = 0;
     TIE = 0x80;
     initBoard();
     
@@ -512,8 +520,8 @@ void tron(void){
         rightbutton &= 2;
         p1Vel = 3;
       }
-      if(rot1){
-        rotflag &= 2;
+      if(up1flag){
+        upflag &= 2;
         p1Vel = 0;  
       }
       if(down1){
@@ -528,8 +536,8 @@ void tron(void){
         rightbutton &= 1;
         p2Vel = 3;
       }
-      if(rot2){
-        rotflag &= 1;
+      if(up2flag){
+        upflag &= 1;
         p2Vel = 0;  
       }
       if(down2){
@@ -569,6 +577,8 @@ void paint(void){
       if(direction == 2){
         direction = 4;
         if(brush[1] < (HEIGHT - 1)){
+          
+          
           
           brush[1] += 1;
           data[brush[0]][brush[1] - 1] = tempColor;
@@ -926,7 +936,8 @@ interrupt 7 void RTI_ISR(void)
         direction = 2;
       }
       if(P1UD < 70){
-        rotflag |= 1; 
+        //rotflag |= 1;
+        upflag |= 1; 
         direction = 0;
       }
       
@@ -940,7 +951,8 @@ interrupt 7 void RTI_ISR(void)
         jumpDownFlag |= 2;
       }
       if(P2UD < 70){
-        rotflag |= 2; 
+        //rotflag |= 2;
+        upflag |= 2; 
       }
       
     }
@@ -951,8 +963,16 @@ interrupt 7 void RTI_ISR(void)
 
     if(!changeColor && prevColor){
       colorflag = 1;
-    }
+    } 
     prevColor = changeColor;
+    
+    if(!P1ROT && prevSelect)
+      rotflag |= 1;
+    prevrot1 = P1ROT;
+    
+    if(!P2ROT && prevColor)
+      rotflag |= 2;
+    prevrot2 = P2ROT;
     
 
 }
